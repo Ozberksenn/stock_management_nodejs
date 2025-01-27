@@ -1,0 +1,55 @@
+const express = require('express');
+const dotenv = require('dotenv')
+var cors = require('cors')
+const sql = require('./src/controller/menu/menu_controller');
+const menuController = require('./src/controller/menu/menu_controller')
+const logingController = require('./src/controller/login/login_controller')
+const productsController = require('./src/controller/products/products_controller')
+const notificationController = require('./src/controller/notification/notification_controller')
+const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
+const app = express();
+
+
+
+
+app.use(cors())
+dotenv.config() // dotenv 
+app.listen(8080,()=>{
+    console.log('Port calisti')
+})
+
+app.use(express.json()); // bu satır çok önemli Express, gelen JSON verilerini doğru şekilde işlemek 
+// için bir middleware kullanmalıdır. Eğer express.json() middleware'ini kullanmıyorsanız,
+// req.body undefined olarak kalır.
+
+// swagger
+var swaggerUi = require('swagger-ui-express');
+swaggerDocument = require('./swagger.json');
+app.use('/swagger',swaggerUi.serve,swaggerUi.setup(swaggerDocument))
+
+
+app.get('/',(req,res) => {
+    res.json({
+        'message': 'welcome to stock management'
+    })
+})
+
+// login
+app.post('/login',logingController.loginCompany)
+app.post('/createCompany',logingController.createCompany)
+// products
+app.get('/getProducts',productsController.getProducts)
+app.post('/createProducts',productsController.createProduct)
+app.put('/updateProduct',productsController.updateProduct)
+app.delete('/deleteProduct',productsController.deleteProduct)
+//bands
+app.get('/getBands',productsController.getBands)
+app.post('/postBand',productsController.postBand)
+app.post('/deleteBand',productsController.deleteBand)
+//notification
+app.get('/getNotification',notificationController.getNotification)
+// menu
+app.get('/getMenu',authMiddleware,menuController.getMenu)
+app.post('/postMenu',authMiddleware,menuController.postMenu)
+app.delete('/deleteMenu',authMiddleware,menuController.deleteMenu)
+app.put('/updateMenu',authMiddleware,menuController.updateMenu) 
