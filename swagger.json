@@ -12,6 +12,9 @@
   "tags": [
     {
       "name": "Menu"
+    },
+    {
+      "name": "Product"
     }
   ],
   "consumes": [
@@ -35,7 +38,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Menu"
             }
           }
         }
@@ -55,7 +58,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Menu"
             }
           }
         },
@@ -86,7 +89,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Menu"
             }
           }
         },
@@ -117,7 +120,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/User"
+              "$ref": "#/definitions/Menu"
             }
           }
         },
@@ -133,10 +136,30 @@
           }
         ]
       }
+    },
+    "/getProducts": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Products"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
-    "User": {
+    "Menu": {
       "type": "object",
       "properties": {
         "MENUNAME": {
@@ -148,6 +171,12 @@
         "MENUIMAGE": {
           "type": "string"
         }
+      }
+    },
+    "Products": {
+      "type": "object",
+      "properties": {
+     
       }
     }
   },

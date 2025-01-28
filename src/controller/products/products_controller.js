@@ -1,14 +1,14 @@
 const sql = require('../../db/db_connection')
-const request = new sql.Request()
 
 
 const getProducts = async (req,res) => {
+    const request = new sql.Request()
     try {
-        let result = await request.execute('GETPRODUCTS')
+        let result = await request.input('COMPANYID',1).execute('GETPRODUCTS')
         return res.json({
          'statusCode' : res.statusCode,
          'message': res.statusMessage,
-         'data':result.recordset[0]
+         'data':result.recordset
         })
     } catch (error) {
         return res.json({
@@ -19,6 +19,7 @@ const getProducts = async (req,res) => {
 }
 
 const createProduct = async (req,res) => {
+    const request = new sql.Request()
     try {
          let result = await request.input('MENUID',req.body.MENUID)
         .input('PRODUCTNAME',req.body.PRODUCTNAME)
@@ -42,6 +43,7 @@ const createProduct = async (req,res) => {
 } 
 
 const updateProduct = async (req,res) => {
+    const request = new sql.Request()
     try {
         let result = await request.
         input('ID',req.body.ID)
@@ -67,6 +69,7 @@ const updateProduct = async (req,res) => {
 }
 
 const deleteProduct = async (req,res) =>{
+    const request = new sql.Request()
     try {
         await request.input('ID',req.body.ID).execute('DELETEPRODUCT')
         return res.json({
@@ -82,6 +85,8 @@ const deleteProduct = async (req,res) =>{
 }
 
 const getBands = async (req,res) => {
+    const request = new sql.Request()
+
     try {
         let result = await request.execute('GETBANDS')
         return res.json({
@@ -97,6 +102,7 @@ const getBands = async (req,res) => {
 }
 
 const postBand = async (req,res) => {
+    const request = new sql.Request()
     try {
          await request
         .input('NAME',req.body.NAME)
@@ -114,6 +120,7 @@ const postBand = async (req,res) => {
 }
 
 const deleteBand = async (req,res) => {
+    const request = new sql.Request()
     try {
          await request
         .input('ID',req.body.ID)

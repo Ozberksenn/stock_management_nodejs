@@ -1,6 +1,5 @@
 const sql = require('../../db/db_connection')
 
-
 getMenu = async (req,res) => {
     // req.company den login olmuş token bilgileri geliyor.
     const request = new sql.Request()

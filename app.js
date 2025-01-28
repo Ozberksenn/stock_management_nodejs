@@ -38,10 +38,10 @@ app.get('/',(req,res) => {
 app.post('/login',logingController.loginCompany)
 app.post('/createCompany',logingController.createCompany)
 // products
-app.get('/getProducts',productsController.getProducts)
-app.post('/createProducts',productsController.createProduct)
-app.put('/updateProduct',productsController.updateProduct)
-app.delete('/deleteProduct',productsController.deleteProduct)
+app.get('/getProducts',authMiddleware,productsController.getProducts)
+app.post('/createProducts',authMiddleware,productsController.createProduct)
+app.put('/updateProduct',authMiddleware,productsController.updateProduct)
+app.delete('/deleteProduct',authMiddleware,productsController.deleteProduct)
 //bands
 app.get('/getBands',productsController.getBands)
 app.post('/postBand',productsController.postBand)
