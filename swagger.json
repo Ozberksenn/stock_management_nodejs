@@ -11,6 +11,9 @@
   },
   "tags": [
     {
+      "name": "Company"
+    },
+    {
       "name": "Menu"
     },
     {
@@ -24,6 +27,46 @@
     "application/json"
   ],
   "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Company"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          }
+        }
+      }
+    },
+    "/createCompany": {
+      "post": {
+        "tags": [
+          "Company"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Company"
+            }
+          }
+        }
+      }
+    },
     "/getMenu": {
       "get": {
         "tags": [
@@ -107,7 +150,7 @@
       }
     },
     "/updateMenu": {
-      "post": {
+      "put": {
         "tags": [
           "Menu"
         ],
@@ -156,6 +199,66 @@
           }
         }
       }
+    },
+    "/createProducts": {
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Products"
+            }
+          }
+        }
+      }
+    },
+    "/updateProducts": {
+      "put": {
+        "tags": [
+          "Product"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Products"
+            }
+          }
+        }
+      }
+    },
+    "/deleteProducts": {
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Products"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -174,6 +277,12 @@
       }
     },
     "Products": {
+      "type": "object",
+      "properties": {
+     
+      }
+    },
+    "Company": {
       "type": "object",
       "properties": {
      
