@@ -19,6 +19,7 @@ postMenu = async (req,res) => {
     const request = new sql.Request()
         try {
              await request.input('MENUNAME',req.body.MENUNAME)
+             .input('COMPANYID',req.body.COMPANYID)
             .input('MENUDESCRIPTION',req.body.MENUDESCRIPTION)
             .input('MENUIMAGE',req.body.MENUIMAGE)
             .execute('POSTMENU')

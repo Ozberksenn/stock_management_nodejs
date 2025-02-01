@@ -220,7 +220,7 @@
         }
       }
     },
-    "/updateProducts": {
+    "/updateProduct": {
       "put": {
         "tags": [
           "Product"

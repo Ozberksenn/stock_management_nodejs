@@ -45,15 +45,14 @@ const createProduct = async (req,res) => {
 const updateProduct = async (req,res) => {
     const request = new sql.Request()
     try {
-        let result = await request.
-        input('ID',req.body.ID)
+        let result = await request
+       .input('ID',req.body.ID)
        .input('MENUID',req.body.MENUID)
        .input('PRODUCTNAME',req.body.PRODUCTNAME)
-       .input('PRODUCTDESCRIPTION',req.body.PRODUCTDESRIPTION)
+       .input('PRODUCTDESCRIPTION',req.body.PRODUCTDESCRIPTION)
        .input('PRICE',req.body.PRICE)
        .input('COUNT',req.body.COUNT)
        .input('IMAGE',req.body.IMAGE)
-       .input('BANDID',req.body.BANDID)
        .execute('UPDATEPRODUCTS')
        return res.json({
            'statusCode' : res.statusCode,
