@@ -9,7 +9,11 @@ const notificationController = require('./src/controller/notification/notificati
 const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
 const app = express();
 
-app.use(cors())
+app.use(cors({
+    origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app'],  // ✅ NGROK'u ekle!
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization',"ngrok-skip-browser-warning"]
+  }));
 dotenv.config() // dotenv 
 app.listen(8080,()=>{
     console.log('Port calisti')
