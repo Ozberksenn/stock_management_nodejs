@@ -1,14 +1,14 @@
 const express = require('express');
 const dotenv = require('dotenv')
-var cors = require('cors')
+var cors = require('cors') // cors hatalarınını önüne geçmek için ekledim.
 const sql = require('./src/controller/menu/menu_controller');
 const menuController = require('./src/controller/menu/menu_controller')
 const logingController = require('./src/controller/login/login_controller')
 const productsController = require('./src/controller/products/products_controller')
 const notificationController = require('./src/controller/notification/notification_controller')
 const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
+const {upload} = require('./src/controller/upload_image/upload_image_controller')   
 const app = express();
-
 app.use(cors({
     origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app'],  // ✅ NGROK'u ekle!
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -35,6 +35,9 @@ app.get('/',(req,res) => {
     })
 })
 
+
+
+
 // login
 app.post('/login',logingController.loginCompany)
 app.post('/createCompany',logingController.createCompany)
@@ -54,3 +57,13 @@ app.get('/getMenu',authMiddleware,menuController.getMenu)
 app.post('/postMenu',authMiddleware,menuController.postMenu)
 app.delete('/deleteMenu',authMiddleware,menuController.deleteMenu)
 app.put('/updateMenu',authMiddleware,menuController.updateMenu) 
+// upload image 
+app.post('/uploadImage',upload.single('image'), (req,res) =>{
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+      }
+      res.send({
+        message: 'File uploaded successfully!',
+        file: req.file
+      });
+})

@@ -22,12 +22,12 @@ const createProduct = async (req,res) => {
     const request = new sql.Request()
     try {
          let result = await request.input('MENUID',req.body.MENUID)
+        .input('COMPANYID',req.body.COMPANYID)
         .input('PRODUCTNAME',req.body.PRODUCTNAME)
         .input('PRODUCTDESCRIPTION',req.body.PRODUCTDESRIPTION)
         .input('PRICE',req.body.PRICE)
         .input('COUNT',req.body.COUNT)
         .input('IMAGE',req.body.IMAGE)
-        .input('BANDID',req.body.BANDID)
         .execute('CREATEPRODUCT')
         return res.json({
             'statusCode' : res.statusCode,
