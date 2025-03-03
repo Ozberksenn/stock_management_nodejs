@@ -60,4 +60,46 @@ createCompany = async (req,res) => {
     }
 }
 
-module.exports = {loginCompany,createCompany}
+getCompanyInfo = async (req,res) => {
+    const request = new sql.Request()
+    try {
+        let result = await request.input('COMPANYID',req.company['companyId']).execute('GETCOMPANYINFO')
+        return res.json({
+            statusCode : 200,
+            message : 'Success',
+            data : result.recordset[0]
+        })
+    } catch (error) {
+        return res.json({
+            error : error.message
+        })
+    }
+}
+updateCompanyInfo = async (req,res) => {
+    const request = new sql.Request()
+    try {
+        let result = await request.input('COMPANYID',req.company['companyId'])
+        .input('COMPANYNAME',req.body.COMPANYNAME)
+        .input('CONTACTMAIL',req.body.CONTACTMAIL)
+        .input('PHONE',req.body.PHONE)
+        .input('LOGO',req.body.LOGO)
+        .input('QRURL',req.body.QRURL)
+        .input('ADDRESS',req.body.ADDRESS)
+        .input('INSTAGRAM',req.body.INSTAGRAM)
+        .input('X',req.body.X)
+        .input('FACEBOOK',req.body.FACEBOOK)
+        .input('YOUTUBE',req.body.YOUTUBE)
+        .execute('UPDATECOMPANYINFO')
+        return res.json({
+            statusCode : 200,
+            message : 'Success',
+            data : result.recordset[0]
+        })
+    } catch (error) {
+        return res.json({
+            error : error.message
+        })
+    }
+}
+
+module.exports = {loginCompany,createCompany,getCompanyInfo,updateCompanyInfo}

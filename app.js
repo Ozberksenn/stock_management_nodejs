@@ -8,9 +8,10 @@ const productsController = require('./src/controller/products/products_controlle
 const notificationController = require('./src/controller/notification/notification_controller')
 const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
 const {upload,postImage} = require('./src/controller/upload_image/upload_image_controller')   
+const {uploadExcell} = require('./src/controller/upload_excell/upload_excell_controller')   
 const app = express();
 app.use(cors({
-    origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app'],  // ✅ NGROK'u ekle!
+    origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app'],  // with NGROK
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization',"ngrok-skip-browser-warning"]
   }));
@@ -45,10 +46,6 @@ app.get('/getProducts',authMiddleware,productsController.getProducts)
 app.post('/createProducts',authMiddleware,productsController.createProduct)
 app.put('/updateProduct',authMiddleware,productsController.updateProduct)
 app.delete('/deleteProduct',authMiddleware,productsController.deleteProduct)
-//bands
-app.get('/getBands',productsController.getBands)
-app.post('/postBand',productsController.postBand)
-app.post('/deleteBand',productsController.deleteBand)
 //notification
 app.get('/getNotification',notificationController.getNotification)
 // menu
@@ -58,3 +55,11 @@ app.delete('/deleteMenu',authMiddleware,menuController.deleteMenu)
 app.put('/updateMenu',authMiddleware,menuController.updateMenu) 
 // upload image 
 app.post('/uploadImage',upload.single('image'),postImage)
+//sale
+app.post('/findProductWithBarcode',authMiddleware,productsController.findProductWithBarcode) // barcode no ya göre barcode bulup getiriyor.
+app.post('/updateProductQuantity',authMiddleware,productsController.updateProductQuantity) // stock miktarını güncelleyen api.
+// company Info
+app.get('/getCompanyInfo',authMiddleware,logingController.getCompanyInfo)
+app.post('/updateCompanyInfo',authMiddleware,logingController.updateCompanyInfo)
+//uploadExcell
+app.post('/uploadExcell',authMiddleware,uploadExcell)
