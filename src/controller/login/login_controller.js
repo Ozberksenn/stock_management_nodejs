@@ -1,11 +1,12 @@
 const sql = require('../../db/db_connection')
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt');
 
 
 loginCompany = async (req,res) => {
     const request = new sql.Request()
     try {
-    const result = await request.input('MAIL',req.body.MAIL).input('PASSWORD',req.body.PASSWORD).execute('COMPANYLOGIN')
+    const result = await request.input('MAIL',req.body.MAIL).execute('COMPANYLOGIN')
     if (!result.recordset || result.recordset.length === 0) {
         return res.json({
             statusCode : 401,
@@ -13,17 +14,22 @@ loginCompany = async (req,res) => {
         });
     }      
     const company = result.recordset[0];
+    const isPasswordValid = await bcrypt.compare(req.body.PASSWORD, company.PASSWORD);
+    if (!isPasswordValid) {
+        return res.status(401).json({
+            statusCode: 401,
+            message: 'Invalid email or password!'
+        });
+    }
     const accessToken = jwt.sign(
         { companyId: company.ID,mail:company.MAIL,companyName:company.COMPANYNAME},
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '2d' }
     );
-
     const refreshToken = jwt.sign(
         { companyId: company.ID,mail:company.MAIL,companyName:company.COMPANYNAME},
         process.env.REFRESH_TOKEN_SECRET
     );
-
     return res.json({
         statusCode: res.statusCode,
         message: res.statusMessage,
@@ -41,12 +47,10 @@ loginCompany = async (req,res) => {
 createCompany = async (req,res) => {
     const request = new sql.Request()
     try {
-        let result =  await request.input('COMPANYNAME',req.body.COMPANYNAME)
+        const hashedPassword = await bcrypt.hash(req.body.PASSWORD, 10);
+        let result =  await request.input('COMPANYNAME','')
         .input('MAIL',req.body.MAIL)
-        .input('PASSWORD',req.body.PASSWORD)
-        .input('PHONE',req.body.PHONE)
-        .input('LOGO',req.body.LOGO)
-        .input('BANNER',req.body.BANNER)
+        .input('PASSWORD',hashedPassword)
         .execute('CREATECOMPANY')
         return res.json({
             'statusCode' : res.statusCode,

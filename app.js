@@ -9,6 +9,8 @@ const notificationController = require('./src/controller/notification/notificati
 const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
 const {upload,postImage} = require('./src/controller/upload_image/upload_image_controller')   
 const {uploadExcell} = require('./src/controller/upload_excell/upload_excell_controller')   
+const {searchProduct} = require('./src/controller/app_controller')   
+
 const app = express();
 app.use(cors({
     origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app'],  // with NGROK
@@ -37,7 +39,6 @@ app.get('/',(req,res) => {
     })
 })
 
-
 // login
 app.post('/login',logingController.loginCompany)
 app.post('/createCompany',logingController.createCompany)
@@ -48,7 +49,7 @@ app.put('/updateProduct',authMiddleware,productsController.updateProduct)
 app.delete('/deleteProduct',authMiddleware,productsController.deleteProduct)
 //notification
 app.get('/getNotification',notificationController.getNotification)
-// menu
+// menu 
 app.get('/getMenu',authMiddleware,menuController.getMenu)
 app.post('/postMenu',authMiddleware,menuController.postMenu)
 app.delete('/deleteMenu',authMiddleware,menuController.deleteMenu)
@@ -63,3 +64,5 @@ app.get('/getCompanyInfo',authMiddleware,logingController.getCompanyInfo)
 app.post('/updateCompanyInfo',authMiddleware,logingController.updateCompanyInfo)
 //uploadExcell
 app.post('/uploadExcell',authMiddleware,uploadExcell)
+// search
+app.post('/searchProduct',authMiddleware,searchProduct)
