@@ -93,6 +93,7 @@ updateCompanyInfo = async (req,res) => {
         .input('X',req.body.X)
         .input('FACEBOOK',req.body.FACEBOOK)
         .input('YOUTUBE',req.body.YOUTUBE)
+        .input('WORKINGHOURS',req.body.WORKINGHOURS)
         .execute('UPDATECOMPANYINFO')
         return res.json({
             statusCode : 200,
