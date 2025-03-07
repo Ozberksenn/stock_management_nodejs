@@ -10,6 +10,7 @@ const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
 const {upload,postImage} = require('./src/controller/upload_image/upload_image_controller')   
 const {uploadExcell} = require('./src/controller/upload_excell/upload_excell_controller')   
 const {searchProduct} = require('./src/controller/app_controller')   
+const {postCustomerContact} = require('./src/controller/admin/customer_contact')
 
 const app = express();
 app.use(cors({
@@ -66,3 +67,5 @@ app.post('/updateCompanyInfo',authMiddleware,logingController.updateCompanyInfo)
 app.post('/uploadExcell',authMiddleware,uploadExcell)
 // search
 app.post('/searchProduct',authMiddleware,searchProduct)
+// admin customer 
+app.post('/postCustomerContact',postCustomerContact)
