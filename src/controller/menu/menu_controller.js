@@ -1,4 +1,5 @@
 const sql = require('../../db/db_connection')
+const {insertLog} = require('../admin/logger')
 
 getMenu = async (req,res) => {
     // req.company den login olmuş token bilgileri geliyor.
@@ -20,9 +21,9 @@ postMenu = async (req,res) => {
         try {
              await request.input('MENUNAME',req.body.MENUNAME)
              .input('COMPANYID',req.body.COMPANYID)
-            .input('MENUDESCRIPTION',req.body.MENUDESCRIPTION)
-            .input('MENUIMAGE',req.body.MENUIMAGE)
-            .execute('POSTMENU')
+             .input('MENUDESCRIPTION',req.body.MENUDESCRIPTION)
+             .input('MENUIMAGE',req.body.MENUIMAGE)
+             .execute('POSTMENU')
              return res.json({
                 'statusCode' : res.statusCode,
                 'message' : res.statusMessage,
@@ -31,7 +32,10 @@ postMenu = async (req,res) => {
            return  res.json({
                 'message' : error
             })
+        } finally {
+            insertLog(req.body.COMPANYID,'POSTMENU')
         }
+    
 }
 
 deleteMenu = async (req,res) => {

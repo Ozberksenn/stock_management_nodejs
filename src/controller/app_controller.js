@@ -7,9 +7,9 @@ const searchProduct = async (req, res) => {
       let result = await request.input('COMPANYID', req.company['companyId'])
                           .input('PRODUCTNAME', req.body.PRODUCTNAME)
                           .execute('SEARCHPRODUCT');
-       return new  response.Response(result.recordset,'success').success(res);
+       return new  response.CustomResponse(result.recordset,'success').success(res);
   } catch (error) {
-       return new  response.Response(error, error.message).error400(res);
+       return new  response.CustomResponse(error, error.message).error400(res);
   }
 }
 module.exports = {searchProduct}

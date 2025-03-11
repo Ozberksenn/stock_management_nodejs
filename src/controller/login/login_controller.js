@@ -89,11 +89,8 @@ updateCompanyInfo = async (req,res) => {
         .input('LOGO',req.body.LOGO)
         .input('QRURL',req.body.QRURL)
         .input('ADDRESS',req.body.ADDRESS)
-        .input('INSTAGRAM',req.body.INSTAGRAM)
-        .input('X',req.body.X)
-        .input('FACEBOOK',req.body.FACEBOOK)
-        .input('YOUTUBE',req.body.YOUTUBE)
         .input('WORKINGHOURS',req.body.WORKINGHOURS)
+        .input('SOCIALMEDIA',req.body.SOCIALMEDIA)
         .execute('UPDATECOMPANYINFO')
         return res.json({
             statusCode : 200,

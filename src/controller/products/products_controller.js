@@ -24,7 +24,7 @@ const createProduct = async (req,res) => {
          let result = await request.input('MENUID',req.body.MENUID)
         .input('COMPANYID',req.body.COMPANYID)
         .input('PRODUCTNAME',req.body.PRODUCTNAME)
-        .input('PRODUCTDESCRIPTION',req.body.PRODUCTDESRIPTION)
+        .input('PRODUCTDESCRIPTION',req.body.PRODUCTDESCRIPTION)
         .input('SHOWSTORE',req.body.SHOWSTORE)
         .input('PRICE',req.body.PRICE)
         .input('COUNT',req.body.COUNT)

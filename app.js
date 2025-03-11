@@ -5,16 +5,16 @@ const sql = require('./src/controller/menu/menu_controller');
 const menuController = require('./src/controller/menu/menu_controller')
 const logingController = require('./src/controller/login/login_controller')
 const productsController = require('./src/controller/products/products_controller')
-const notificationController = require('./src/controller/notification/notification_controller')
 const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
 const {upload,postImage} = require('./src/controller/upload_image/upload_image_controller')   
 const {uploadExcell} = require('./src/controller/upload_excell/upload_excell_controller')   
 const {searchProduct} = require('./src/controller/app_controller')   
 const {postCustomerContact} = require('./src/controller/admin/customer_contact')
+const {getLogs} = require('./src/controller/admin/logger')
 
 const app = express();
 app.use(cors({
-    origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app'],  // with NGROK
+    origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app','https://stock-management-ashy.vercel.app'],  // with NGROK
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization',"ngrok-skip-browser-warning"]
   }));
@@ -48,8 +48,6 @@ app.get('/getProducts',authMiddleware,productsController.getProducts)
 app.post('/createProducts',authMiddleware,productsController.createProduct)
 app.put('/updateProduct',authMiddleware,productsController.updateProduct)
 app.delete('/deleteProduct',authMiddleware,productsController.deleteProduct)
-//notification
-app.get('/getNotification',notificationController.getNotification)
 // menu 
 app.get('/getMenu',authMiddleware,menuController.getMenu)
 app.post('/postMenu',authMiddleware,menuController.postMenu)
@@ -67,5 +65,6 @@ app.post('/updateCompanyInfo',authMiddleware,logingController.updateCompanyInfo)
 app.post('/uploadExcell',authMiddleware,uploadExcell)
 // search
 app.post('/searchProduct',authMiddleware,searchProduct)
-// admin customer 
+// admin 
 app.post('/postCustomerContact',postCustomerContact)
+app.get('/getLogs',getLogs) // log kayıtlarını çeker.
