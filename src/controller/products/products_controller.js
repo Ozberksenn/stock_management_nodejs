@@ -1,19 +1,13 @@
 const sql = require('../../db/db_connection')
-
+const {CustomResponse} = require('../../utils/response')
 
 const getProducts = async (req,res) => {
     const request = new sql.Request()
     try {
         let result = await request.input('COMPANYID',req.company['companyId']).execute('GETPRODUCTS')
-        return res.json({
-         'statusCode' : res.statusCode,
-         'message': res.statusMessage,
-         'data':result.recordset
-        })
+        return new CustomResponse(result.recordset,'Success').success(res)
     } catch (error) {
-        return res.json({
-            'message': error,
-           })
+        return new CustomResponse({}, error.toString()).error500(res);
     }
   
 }
@@ -31,15 +25,9 @@ const createProduct = async (req,res) => {
         .input('IMAGE',req.body.IMAGE)
         .input('BARCODE',req.body.BARCODE)
         .execute('CREATEPRODUCT')
-        return res.json({
-            'statusCode' : res.statusCode,
-            'message': res.statusMessage,
-           })
+        return new CustomResponse(result,'Product Added Successfully').success(res)
     } catch (error) {
-        return res.json({
-            'statusCode' : res.statusCode,
-            'message': error,
-           })
+        return new CustomResponse({}, error.toString()).error500(res);
     }
 } 
 
@@ -57,99 +45,30 @@ const updateProduct = async (req,res) => {
        .input('IMAGE',req.body.IMAGE)
        .input('BARCODE',req.body.BARCODE)
        .execute('UPDATEPRODUCTS')
-       return res.json({
-           'statusCode' : res.statusCode,
-           'message': res.statusMessage,
-           'data' : result
-          })
+       return new CustomResponse(result,'Product Update Successfully').success(res)
    } catch (error) {
-       return res.json({
-           'statusCode' : res.statusCode,
-           'message': error,
-          })
+    return new CustomResponse({}, error.toString()).error500(res);
    }
 }
 
 const deleteProduct = async (req,res) =>{
     const request = new sql.Request()
     try {
-        await request.input('ID',req.body.ID).execute('DELETEPRODUCT')
-        return res.json({
-            'statusCode' : res.statusCode,
-            'message': 'success deleted',
-           })
+       let result =  await request.input('ID',req.body.ID).execute('DELETEPRODUCT')
+        return new CustomResponse(result,'Product Deleted Successfully').success(res)
     } catch (error) {
-        return res.json({
-            'statusCode' : res.statusCode,
-            'message': error,
-           })
+        return new CustomResponse({}, error.toString()).error500(res);
     }
 }
 
-// const getBands = async (req,res) => {
-//     const request = new sql.Request()
-
-//     try {
-//         let result = await request.execute('GETBANDS')
-//         return res.json({
-//          'statusCode' : res.statusCode,
-//          'message': res.statusMessage,
-//          'data':result.recordset
-//         })
-//     } catch (error) {
-//         return res.json({
-//             'message': error,
-//            })
-//     }
-// }
-
-// const postBand = async (req,res) => {
-//     const request = new sql.Request()
-//     try {
-//          await request
-//         .input('NAME',req.body.NAME)
-//         .input('LOGO',req.body.LOGO)
-//         .execute('POSTBAND')
-//         return res.json({
-//          'statusCode' : res.statusCode,
-//          'message': res.statusMessage
-//         })
-//     } catch (error) {
-//         return res.json({
-//             'message': error,
-//            })
-//     }
-// }
-
-// const deleteBand = async (req,res) => {
-//     const request = new sql.Request()
-//     try {
-//          await request
-//         .input('ID',req.body.ID)
-//         .execute('DELETEBAND')
-//         return res.json({
-//          'statusCode' : res.statusCode,
-//          'message': 'deleted band'
-//         })
-//     } catch (error) {
-//         return res.json({
-//             'message': error,
-//            })
-//     }
-// }
 
 const findProductWithBarcode = async (req,res) => {
     const request = new sql.Request()
     try {
         let result = await request.input('COMPANYID',req.company['companyId']).input('BARCODE',req.body.BARCODE).execute('FINDEPRODUCTWITHBARCODE')
-        return res.status(200).json({
-            statusCode: 200,
-            data : result.recordsets[0]
-        })
+        return new CustomResponse(result.recordsets[0],'Success').success(res) // todo : procedure içinde Top ile 1 dönebilirm.
     } catch (error) {
-        return res.status(500).json({
-            message : error.message
-        })
+        return new CustomResponse({}, error.toString()).error500(res);
     }
 }
 
@@ -157,14 +76,10 @@ const updateProductQuantity = async (req,res) => {
     // todo : company ID kontrolü backendde şu an yok yapılmalı.
     const request = new sql.Request()
     try {
-        await request.input('COMPANYID',req.company['companyId']).input('PRODUCTJSONDATA',req.body.PRODUCTJSONDATA).execute('UPDATEPRODUCTQUANTITY')
-        return res.status(200).json({
-            statusCode: 200,
-        })
+        let result = await request.input('COMPANYID',req.company['companyId']).input('PRODUCTJSONDATA',req.body.PRODUCTJSONDATA).execute('UPDATEPRODUCTQUANTITY')
+        return new CustomResponse(result,'Success').success(res) // todo : procedure içinde Top ile 1 dönebilirm.
     } catch (error) {
-        return res.status(500).json({
-            message : error.message
-        })
+        return new CustomResponse({}, error.toString()).error500(res);
     }
 }
 

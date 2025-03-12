@@ -1,5 +1,5 @@
 class CustomResponse {
-  constructor(data = [], message = null, status = 200) {
+  constructor(data, message = null, status = 200) {
     this.data = data;
     this.message = message;
     this.status = status;

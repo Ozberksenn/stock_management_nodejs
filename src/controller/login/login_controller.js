@@ -1,6 +1,7 @@
-const sql = require('../../db/db_connection')
-const jwt = require('jsonwebtoken')
+const sql = require('../../db/db_connection');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const {CustomResponse} = require('../../utils/response')
 
 
 loginCompany = async (req,res) => {
@@ -67,16 +68,10 @@ createCompany = async (req,res) => {
 getCompanyInfo = async (req,res) => {
     const request = new sql.Request()
     try {
-        let result = await request.input('COMPANYID',req.company['companyId']).execute('GETCOMPANYINFO')
-        return res.json({
-            statusCode : 200,
-            message : 'Success',
-            data : result.recordset[0]
-        })
+         let result = await request.input('COMPANYID',req.company['companyId']).execute('GETCOMPANYINFO')
+         return new CustomResponse(result.recordsets[0],'Success').success(res)
     } catch (error) {
-        return res.json({
-            error : error.message
-        })
+        return new CustomResponse({}, error.toString()).error500(res);
     }
 }
 updateCompanyInfo = async (req,res) => {
@@ -92,15 +87,9 @@ updateCompanyInfo = async (req,res) => {
         .input('WORKINGHOURS',req.body.WORKINGHOURS)
         .input('SOCIALMEDIA',req.body.SOCIALMEDIA)
         .execute('UPDATECOMPANYINFO')
-        return res.json({
-            statusCode : 200,
-            message : 'Success',
-            data : result.recordset[0]
-        })
+        return new CustomResponse(result,'Success').success(res)
     } catch (error) {
-        return res.json({
-            error : error.message
-        })
+        return new CustomResponse({}, error.toString()).error500(res);
     }
 }
 
