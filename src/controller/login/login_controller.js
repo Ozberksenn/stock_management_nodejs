@@ -9,18 +9,12 @@ loginCompany = async (req,res) => {
     try {
     const result = await request.input('MAIL',req.body.MAIL).execute('COMPANYLOGIN')
     if (!result.recordset || result.recordset.length === 0) {
-        return res.json({
-            statusCode : 401,
-            message: 'Invalid mail or pasword!'
-        });
+        return new CustomResponse({}, 'Invalid email or password!').error401(res);
     }      
     const company = result.recordset[0];
     const isPasswordValid = await bcrypt.compare(req.body.PASSWORD, company.PASSWORD);
     if (!isPasswordValid) {
-        return res.status(401).json({
-            statusCode: 401,
-            message: 'Invalid email or password!'
-        });
+        return new CustomResponse({}, 'Invalid email or password!').error401(res);
     }
     const accessToken = jwt.sign(
         { companyId: company.ID,mail:company.MAIL,companyName:company.COMPANYNAME},
@@ -31,17 +25,12 @@ loginCompany = async (req,res) => {
         { companyId: company.ID,mail:company.MAIL,companyName:company.COMPANYNAME},
         process.env.REFRESH_TOKEN_SECRET
     );
-    return res.json({
-        statusCode: res.statusCode,
-        message: res.statusMessage,
+    return  new CustomResponse({
         token: accessToken,
         refreshToken:refreshToken
-    });
+    },res.statusMessage).success(res)
     } catch (error) {
-        return res.json({
-            statusCode : 401,
-            message: error,
-        });
+        return new CustomResponse({}, error.toString()).error401(res);
     }
 }
 

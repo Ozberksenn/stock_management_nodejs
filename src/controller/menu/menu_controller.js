@@ -25,9 +25,9 @@ postMenu = async (req,res) => {
         } catch (error) {
             return new CustomResponse({}, error.toString()).error500(res);
         } 
-        // finally {
-        //     // insertLog(req.body.COMPANYID,'POSTMENU')
-        // }
+        finally {
+             insertLog(req.body.COMPANYID,'POSTMENU')
+        }
 }
 
 deleteMenu = async (req,res) => {

@@ -1,5 +1,6 @@
 const sql = require('../../db/db_connection')
 const {CustomResponse} = require('../../utils/response')
+const {insertLog} = require('../../controller/admin/logger')
 
 const getProducts = async (req,res) => {
     const request = new sql.Request()

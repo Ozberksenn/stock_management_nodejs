@@ -8,10 +8,6 @@ insertLog = async (companyId,procedure) => {
         .input('COMPANYID',companyId)
         .input('URL',procedure)
         .execute('INSERTLOG');
-             res.json({
-                success : true,
-                message : 'created log'  
-            })
         return { success: true, message: "Log created", data: result.recordset};
     } catch (error) {
         return { success: false, message: error};
@@ -30,5 +26,4 @@ getLogs = async (req,res) => {
 
 
 
-
-module.exports = {getLogs}
+module.exports = {getLogs,insertLog}

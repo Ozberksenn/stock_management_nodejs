@@ -10,7 +10,6 @@ postCustomerContact = async (req,res) => {
         .input('COMPANYNAME',req.body.COMPANYNAME)
         .input('DESCRIPTION',req.body.DESCRIPTION)
         .execute('POSTADMINCUSTOMERCONTACT');
-
         return new CustomResponse(result,'Successfully Contact').success(res)
     } catch (error) {
         return new CustomResponse([], "An error occurred").error400(res);
