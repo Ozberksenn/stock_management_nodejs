@@ -26,7 +26,7 @@ postMenu = async (req,res) => {
             return new CustomResponse({}, error.toString()).error500(res);
         } 
         finally {
-             insertLog(req.body.COMPANYID,'POSTMENU')
+             insertLog(req,res);
         }
 }
 
@@ -37,6 +37,8 @@ deleteMenu = async (req,res) => {
             return new CustomResponse(result,'Menu Deleted Successfully').success(res)
         } catch (error) {
             return new CustomResponse({}, error.toString()).error500(res);
+        }finally {
+            insertLog(req,res);
         }
 }
 
@@ -51,6 +53,8 @@ updateMenu = async (req,res) => {
         return new CustomResponse(result,'Menu Update Successfully').success(res)
     } catch (error) {
          return new CustomResponse({}, error.toString()).error500(res);
+    } finally {
+        insertLog(req,res);
     }
 }
 

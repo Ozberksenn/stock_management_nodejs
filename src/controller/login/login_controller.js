@@ -17,15 +17,15 @@ loginCompany = async (req,res) => {
         return new CustomResponse({}, 'Invalid email or password!').error401(res);
     }
     const accessToken = jwt.sign(
-        { companyId: company.ID,mail:company.MAIL,companyName:company.COMPANYNAME},
+        { companyId: company.ID,mail:company.MAIL,companyName:company.COMPANYNAME,role:company.ROLE},
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '2d' }
     );
     const refreshToken = jwt.sign(
-        { companyId: company.ID,mail:company.MAIL,companyName:company.COMPANYNAME},
+        { companyId: company.ID,mail:company.MAIL,companyName:company.COMPANYNAME,role:company.ROLE},
         process.env.REFRESH_TOKEN_SECRET
     );
-    return  new CustomResponse({
+    return new CustomResponse({
         token: accessToken,
         refreshToken:refreshToken
     },res.statusMessage).success(res)
@@ -38,19 +38,14 @@ createCompany = async (req,res) => {
     const request = new sql.Request()
     try {
         const hashedPassword = await bcrypt.hash(req.body.PASSWORD, 10);
-        let result =  await request.input('COMPANYNAME','')
+        await request.input('COMPANYNAME',req.body.COMPANYNAME)
         .input('MAIL',req.body.MAIL)
         .input('PASSWORD',hashedPassword)
+        .input('ROLE',req.body.ROLE)
         .execute('CREATECOMPANY')
-        return res.json({
-            'statusCode' : res.statusCode,
-            'message': res.statusMessage,
-            'data':result.recordset[0]
-        });
+        return new CustomResponse({},'created company').success(res)
     } catch (error) {
-        return res.json({
-            'message': error
-        });
+        return new CustomResponse({}, error.toString()).error500(res);
     }
 }
 

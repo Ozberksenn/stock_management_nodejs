@@ -1,16 +1,24 @@
 const sql = require('../../db/db_connection')
 const {CustomResponse} = require('../../utils/response')
 
-insertLog = async (companyId,procedure) => {
+insertLog = async (reqLog,resLog) => {
+    // res.originalUrl = istek atılan api url
+    // res.body = giden istekler
+    // res.company = company bilgileri 
+    // res.statusCode = dönen kod
+    // res.statusMessage = dönen mesaj
     const request = new sql.Request()
     try {
-        let result =  await request
-        .input('COMPANYID',companyId)
-        .input('URL',procedure)
+         await request
+        .input('COMPANY', JSON.stringify(reqLog.company))
+        .input('ORIGINALURL',reqLog.originalUrl)
+        .input('BODY', JSON.stringify(reqLog.body))
+        .input('STATUSCODE',resLog.statusCode.toString())
+        .input('STATUSMESSAGE',resLog.statusMessage)
         .execute('INSERTLOG');
-        return { success: true, message: "Log created", data: result.recordset};
+        return {success: true, message: "Log created"};
     } catch (error) {
-        return { success: false, message: error};
+        return {success: false, message: error};
     }
 }
 

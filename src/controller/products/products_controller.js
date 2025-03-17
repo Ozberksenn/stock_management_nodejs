@@ -1,6 +1,6 @@
 const sql = require('../../db/db_connection')
 const {CustomResponse} = require('../../utils/response')
-const {insertLog} = require('../../controller/admin/logger')
+const {insertLog} = require('../admin/logger')
 
 const getProducts = async (req,res) => {
     const request = new sql.Request()
@@ -9,8 +9,7 @@ const getProducts = async (req,res) => {
         return new CustomResponse(result.recordset,'Success').success(res)
     } catch (error) {
         return new CustomResponse({}, error.toString()).error500(res);
-    }
-  
+    } 
 }
 
 const createProduct = async (req,res) => {
@@ -29,6 +28,8 @@ const createProduct = async (req,res) => {
         return new CustomResponse(result,'Product Added Successfully').success(res)
     } catch (error) {
         return new CustomResponse({}, error.toString()).error500(res);
+    } finally {
+        insertLog(req,res)
     }
 } 
 
@@ -49,7 +50,9 @@ const updateProduct = async (req,res) => {
        return new CustomResponse(result,'Product Update Successfully').success(res)
    } catch (error) {
     return new CustomResponse({}, error.toString()).error500(res);
-   }
+   } finally {
+    insertLog(req,res)
+}
 }
 
 const deleteProduct = async (req,res) =>{
@@ -59,6 +62,8 @@ const deleteProduct = async (req,res) =>{
         return new CustomResponse(result,'Product Deleted Successfully').success(res)
     } catch (error) {
         return new CustomResponse({}, error.toString()).error500(res);
+    } finally {
+        insertLog(req,res)
     }
 }
 

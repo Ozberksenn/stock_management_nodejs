@@ -15,4 +15,17 @@ postCustomerContact = async (req,res) => {
         return new CustomResponse([], "An error occurred").error400(res);
     }
 }
-module.exports = {postCustomerContact}
+
+getCustomerContact = async (req,res) =>{
+    const request = new sql.Request()
+    try {
+        let result =  await request
+        .execute('CUSTOMERCONTACTGET');
+        return new CustomResponse(result.recordset,'Successfully').success(res)
+    } catch (error) {
+        return new CustomResponse([], error.toString()).error500(res);
+    }
+}
+
+
+module.exports = {postCustomerContact,getCustomerContact}

@@ -9,7 +9,7 @@ const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
 const {upload,postImage} = require('./src/controller/upload_image/upload_image_controller')   
 const {uploadExcell} = require('./src/controller/upload_excell/upload_excell_controller')   
 const {searchProduct} = require('./src/controller/app_controller')   
-const {postCustomerContact} = require('./src/controller/admin/customer_contact')
+const {postCustomerContact, getCustomerContact} = require('./src/controller/admin/customer_contact')
 const {getLogs} = require('./src/controller/admin/logger')
 
 const app = express();
@@ -66,5 +66,6 @@ app.post('/uploadExcell',authMiddleware,uploadExcell)
 // search
 app.post('/searchProduct',authMiddleware,searchProduct)
 // admin 
-app.post('/postCustomerContact',postCustomerContact)
+app.post('/postCustomerContact',postCustomerContact),
+app.get('/getCustomerContact',authMiddleware,getCustomerContact)
 app.get('/getLogs',getLogs) // log kayıtlarını çeker.
