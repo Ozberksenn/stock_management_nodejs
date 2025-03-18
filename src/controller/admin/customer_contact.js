@@ -27,5 +27,17 @@ getCustomerContact = async (req,res) =>{
     }
 }
 
+deleteCustomerContact = async (req,res) => {
+    const request = new sql.Request()
+    try {
+        await request
+        .input('CUSTOMERS',req.body.CUSTOMERS)
+        .execute('CUSTOMER_CONTACT_DELETE');
+        return new CustomResponse({},'success').success(res)
+    } catch (error) {
+        return new CustomResponse({}, error.toString()).error500(res);
+    }
+}
 
-module.exports = {postCustomerContact,getCustomerContact}
+
+module.exports = {postCustomerContact,getCustomerContact,deleteCustomerContact}

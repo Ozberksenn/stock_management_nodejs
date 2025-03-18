@@ -26,7 +26,7 @@ getLogs = async (req,res) => {
     const request = new sql.Request()
     try {
         let result = await request.execute('LOG_GET')
-        return new CustomResponse(result.recordset,'All Logs').success(res)
+        return new CustomResponse(result.recordset,'success').success(res)
     } catch (error) {
         return new CustomResponse([],error).error400(res)
     }
