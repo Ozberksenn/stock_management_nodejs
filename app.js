@@ -43,6 +43,7 @@ app.get('/',(req,res) => {
 // login
 app.post('/login',logingController.loginCompany)
 app.post('/createCompany',logingController.createCompany)
+app.post('/updatePassword',authMiddleware,logingController.updatePassword)
 // products
 app.get('/getProducts',authMiddleware,productsController.getProducts)
 app.post('/createProducts',authMiddleware,productsController.createProduct)

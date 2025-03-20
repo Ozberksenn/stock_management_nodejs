@@ -34,6 +34,28 @@ loginCompany = async (req,res) => {
     }
 }
 
+updatePassword = async (req,res) => {
+    const request = new sql.Request()
+    const updatePasswordRequest = new sql.Request()
+    try {
+        const result = await request.input('MAIL',req.body.MAIL).execute('COMPANYLOGIN')
+        if (!result.recordset || result.recordset.length === 0) {
+            return new CustomResponse({}, 'Invalid email or password!').error401(res);
+        }   
+        const company = result.recordset[0];
+        const isPasswordValid = await bcrypt.compare(req.body.PASSWORD, company.PASSWORD);
+        if (!isPasswordValid) {
+            return new CustomResponse({}, 'Invalid email or password!').error401(res);
+        }
+        const hashedNewPassword = await bcrypt.hash(req.body.NEWPASSWORD, 10);
+        await updatePasswordRequest.input('COMPANYID',req.company['companyId']).input('NEWPASSWORD',hashedNewPassword.toString()).execute('PASSWORD_UPDATE')
+        return new CustomResponse({},'password update success').success(res)
+    } catch (error) {
+        return new CustomResponse({}, error.toString()).error401(res);
+    }
+}
+
+
 createCompany = async (req,res) => {
     const request = new sql.Request()
     try {
@@ -48,6 +70,7 @@ createCompany = async (req,res) => {
         return new CustomResponse({}, error.toString()).error500(res);
     }
 }
+
 
 getCompanyInfo = async (req,res) => {
     const request = new sql.Request()
@@ -77,4 +100,4 @@ updateCompanyInfo = async (req,res) => {
     }
 }
 
-module.exports = {loginCompany,createCompany,getCompanyInfo,updateCompanyInfo}
+module.exports = {loginCompany,createCompany,getCompanyInfo,updateCompanyInfo,updatePassword}
