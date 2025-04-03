@@ -14,7 +14,7 @@ const config = {
 
 sql.connect(config, function(err,res) {
     if (err) console.log(err);
-    console.log('successfully connect')
+    console.log('successfully connect database')
     // Bağlantı başarılı olduğunda yapılacak işlemler buraya yazılır
   });
 

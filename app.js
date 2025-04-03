@@ -49,6 +49,7 @@ app.get('/getProducts',authMiddleware,productsController.getProducts)
 app.post('/createProducts',authMiddleware,productsController.createProduct)
 app.put('/updateProduct',authMiddleware,productsController.updateProduct)
 app.delete('/deleteProduct',authMiddleware,productsController.deleteProduct)
+app.put('/productOrderUpdate',authMiddleware,productsController.productOrderUpdate) // product sırasını güncellemke için kullanıldı.
 // menu 
 app.get('/getMenu',authMiddleware,menuController.getMenu)
 app.post('/postMenu',authMiddleware,menuController.postMenu)

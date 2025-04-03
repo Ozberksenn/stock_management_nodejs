@@ -24,6 +24,7 @@ const createProduct = async (req,res) => {
         .input('COUNT',req.body.COUNT)
         .input('IMAGE',req.body.IMAGE)
         .input('BARCODE',req.body.BARCODE)
+        .input('PRODUCTVARIATION',req.body.PRODUCTVARIATION)
         .execute('CREATEPRODUCT')
         return new CustomResponse(result,'Product Added Successfully').success(res)
     } catch (error) {
@@ -46,6 +47,7 @@ const updateProduct = async (req,res) => {
        .input('SHOWSTORE',req.body.SHOWSTORE)
        .input('IMAGE',req.body.IMAGE)
        .input('BARCODE',req.body.BARCODE)
+       .input('PRODUCTVARIATION',req.body.PRODUCTVARIATION)
        .execute('UPDATEPRODUCTS')
        return new CustomResponse(result,'Product Update Successfully').success(res)
    } catch (error) {
@@ -90,4 +92,19 @@ const updateProductQuantity = async (req,res) => {
 }
 
 
-module.exports= {getProducts,createProduct,deleteProduct,updateProduct,findProductWithBarcode,updateProductQuantity}
+const productOrderUpdate = async (req,res) => {
+    const request = new sql.Request()
+    try {
+        let result = await request.input('COMPANYID',req.company['companyId'])
+        .input('FIRSTID',req.body.FIRSTID)
+        .input('FIRSTORDER',req.body.FIRSTORDER)
+        .input('SECONDID',req.body.SECONDID)
+        .input('SECONDORDER',req.body.SECONDORDER)
+        .execute('PRODUCTORDERUPDATE')
+    } catch (error) {
+        
+    }
+}
+
+
+module.exports= {getProducts,createProduct,deleteProduct,updateProduct,findProductWithBarcode,updateProductQuantity,productOrderUpdate}
