@@ -20,6 +20,7 @@ postMenu = async (req,res) => {
              .input('COMPANYID',req.body.COMPANYID)
              .input('MENUDESCRIPTION',req.body.MENUDESCRIPTION)
              .input('MENUIMAGE',req.body.MENUIMAGE)
+             .input('SHOWSTORE',req.body.SHOWSTORE)
              .execute('POSTMENU')
              return new CustomResponse(result,'Menu Added Successfully').success(res)
         } catch (error) {
@@ -49,6 +50,7 @@ updateMenu = async (req,res) => {
         .input('MENUNAME',req.body.MENUNAME)
         .input('MENUDESCRIPTION',req.body.MENUDESCRIPTION)
         .input('MENUIMAGE',req.body.MENUIMAGE)
+        .input('SHOWSTORE',req.body.SHOWSTORE)
         .execute('UPDATEMENU')
         return new CustomResponse(result,'Menu Update Successfully').success(res)
     } catch (error) {

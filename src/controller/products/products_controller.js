@@ -96,13 +96,12 @@ const productOrderUpdate = async (req,res) => {
     const request = new sql.Request()
     try {
         let result = await request.input('COMPANYID',req.company['companyId'])
-        .input('FIRSTID',req.body.FIRSTID)
-        .input('FIRSTORDER',req.body.FIRSTORDER)
-        .input('SECONDID',req.body.SECONDID)
-        .input('SECONDORDER',req.body.SECONDORDER)
+        .input('PRODUCTID',req.body.PRODUCTID)
+        .input('NEWORDER',req.body.NEWORDER)
         .execute('PRODUCTORDERUPDATE')
+        return new CustomResponse(result,'Success').success(res)
     } catch (error) {
-        
+        return new CustomResponse({}, error.toString()).error500(res);
     }
 }
 
