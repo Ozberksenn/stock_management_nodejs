@@ -13,6 +13,18 @@ getMenu = async (req,res) => {
         }
 }
 
+getMenuWithoutToken = async (req,res) => {
+    const request = new sql.Request()
+     try {
+            const companyId = req.query.companyId;
+            console.log(companyId)
+            let result = await request.input('COMPANYID',companyId).execute('GETMENU')
+            return new CustomResponse(result.recordset,'Success').success(res)
+        } catch (error) {
+            return new CustomResponse({}, error.toString()).error500(res);
+        }
+}
+
 postMenu = async (req,res) => {
     const request = new sql.Request()
         try {
@@ -60,5 +72,5 @@ updateMenu = async (req,res) => {
     }
 }
 
-module.exports = {getMenu,postMenu,deleteMenu,updateMenu};
+module.exports = {getMenu,getMenuWithoutToken,postMenu,deleteMenu,updateMenu};
 

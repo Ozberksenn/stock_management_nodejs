@@ -40,7 +40,7 @@ app.get('/',(req,res) => {
     })
 })
 
-// login
+// login 
 app.post('/login',logingController.loginCompany)
 app.post('/createCompany',logingController.createCompany)
 app.post('/updatePassword',authMiddleware,logingController.updatePassword)
@@ -52,6 +52,7 @@ app.delete('/deleteProduct',authMiddleware,productsController.deleteProduct)
 app.put('/productOrderUpdate',authMiddleware,productsController.productOrderUpdate) // product sırasını güncellemke için kullanıldı.
 // menu 
 app.get('/getMenu',authMiddleware,menuController.getMenu)
+app.get('/getMenuWithoutToken',menuController.getMenuWithoutToken) // token olmadan menüleri çekebiliriz. Qr için
 app.post('/postMenu',authMiddleware,menuController.postMenu)
 app.delete('/deleteMenu',authMiddleware,menuController.deleteMenu)
 app.put('/updateMenu',authMiddleware,menuController.updateMenu) 
