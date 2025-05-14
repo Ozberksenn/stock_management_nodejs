@@ -12,6 +12,18 @@ const getProducts = async (req,res) => {
     } 
 }
 
+const getProductWithoutToken = async (req,res) =>{
+    const request = new sql.Request()
+    try {
+         const companyId = req.query.companyId;
+         let result = await request.input('COMPANYID',companyId).execute('GETPRODUCTS')
+          return new CustomResponse(result.recordset,'Success').success(res)
+    } catch (error) {
+        return new CustomResponse({}, error.toString()).error500(res);
+        
+    }
+}
+
 const createProduct = async (req,res) => {
     const request = new sql.Request()
     try {
@@ -106,4 +118,4 @@ const productOrderUpdate = async (req,res) => {
 }
 
 
-module.exports= {getProducts,createProduct,deleteProduct,updateProduct,findProductWithBarcode,updateProductQuantity,productOrderUpdate}
+module.exports= {getProducts,getProductWithoutToken,createProduct,deleteProduct,updateProduct,findProductWithBarcode,updateProductQuantity,productOrderUpdate}

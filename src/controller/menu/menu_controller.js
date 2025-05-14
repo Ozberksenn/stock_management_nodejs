@@ -17,7 +17,6 @@ getMenuWithoutToken = async (req,res) => {
     const request = new sql.Request()
      try {
             const companyId = req.query.companyId;
-            console.log(companyId)
             let result = await request.input('COMPANYID',companyId).execute('GETMENU')
             return new CustomResponse(result.recordset,'Success').success(res)
         } catch (error) {

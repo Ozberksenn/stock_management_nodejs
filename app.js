@@ -14,7 +14,7 @@ const {getLogs} = require('./src/controller/admin/logger')
 
 const app = express();
 app.use(cors({
-    origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app','https://stock-management-ashy.vercel.app'],  // with NGROK
+    origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app','https://stock-management-ashy.vercel.app','http://localhost:5173' , 'https://vertically-quick-crappie.ngrok-free.app'],  // with NGROK
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization',"ngrok-skip-browser-warning"]
   }));
@@ -46,6 +46,7 @@ app.post('/createCompany',logingController.createCompany)
 app.post('/updatePassword',authMiddleware,logingController.updatePassword)
 // products
 app.get('/getProducts',authMiddleware,productsController.getProducts)
+app.get('/getProductsWithoutToken',productsController.getProductWithoutToken)
 app.post('/createProducts',authMiddleware,productsController.createProduct)
 app.put('/updateProduct',authMiddleware,productsController.updateProduct)
 app.delete('/deleteProduct',authMiddleware,productsController.deleteProduct)
