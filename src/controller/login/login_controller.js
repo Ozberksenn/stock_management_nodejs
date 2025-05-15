@@ -81,6 +81,19 @@ getCompanyInfo = async (req,res) => {
         return new CustomResponse({}, error.toString()).error500(res);
     }
 }
+
+getCompanyInfoWithoutToken = async (req,res) => {
+    const request = new sql.Request()
+    try {
+         const companyId = req.query.companyId;
+         let result = await request.input('COMPANYID',companyId).execute('GETCOMPANYINFO')
+         return new CustomResponse(result.recordsets[0],'Success').success(res)
+    } catch (error) {
+        return new CustomResponse({}, error.toString()).error500(res);
+    }
+}
+
+
 updateCompanyInfo = async (req,res) => {
     const request = new sql.Request()
     try {
@@ -100,4 +113,4 @@ updateCompanyInfo = async (req,res) => {
     }
 }
 
-module.exports = {loginCompany,createCompany,getCompanyInfo,updateCompanyInfo,updatePassword}
+module.exports = {loginCompany,createCompany,getCompanyInfo,getCompanyInfoWithoutToken,updateCompanyInfo,updatePassword}

@@ -46,7 +46,7 @@ app.post('/createCompany',logingController.createCompany)
 app.post('/updatePassword',authMiddleware,logingController.updatePassword)
 // products
 app.get('/getProducts',authMiddleware,productsController.getProducts)
-app.get('/getProductsWithoutToken',productsController.getProductWithoutToken)
+app.get('/getProductsWithoutToken',productsController.getProductWithoutToken)// token olmadan products çekebiliriz. Qr için
 app.post('/createProducts',authMiddleware,productsController.createProduct)
 app.put('/updateProduct',authMiddleware,productsController.updateProduct)
 app.delete('/deleteProduct',authMiddleware,productsController.deleteProduct)
@@ -64,6 +64,7 @@ app.post('/findProductWithBarcode',authMiddleware,productsController.findProduct
 app.post('/updateProductQuantity',authMiddleware,productsController.updateProductQuantity) // stock miktarını güncelleyen api.
 // company Info
 app.get('/getCompanyInfo',authMiddleware,logingController.getCompanyInfo)
+app.get('/getCompanyInfoWithoutToken',logingController.getCompanyInfoWithoutToken) // token olmadan company info çekebiliriz. Qr için
 app.post('/updateCompanyInfo',authMiddleware,logingController.updateCompanyInfo)
 //uploadExcell
 app.post('/uploadExcell',authMiddleware,uploadExcell)
