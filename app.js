@@ -14,7 +14,7 @@ const {getLogs} = require('./src/controller/admin/logger')
 
 const app = express();
 app.use(cors({
-    origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app','https://stock-management-ashy.vercel.app','http://localhost:5173' , 'https://vertically-quick-crappie.ngrok-free.app'],  // with NGROK
+    origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app','https://stock-management-ashy.vercel.app','http://localhost:5173','https://qr-menu-react.vercel.app' , 'https://vertically-quick-crappie.ngrok-free.app'],  // with NGROK
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization',"ngrok-skip-browser-warning"]
   }));
@@ -32,7 +32,6 @@ var swaggerUi = require('swagger-ui-express');
 swaggerDocument = require('./swagger.json');
 app.use('/uploads', express.static('uploads')); // http://localhost:8080/uploads/1739391195139.jpg
 app.use('/swagger',swaggerUi.serve,swaggerUi.setup(swaggerDocument))
-
 
 app.get('/',(req,res) => {
     res.json({
