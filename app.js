@@ -5,6 +5,7 @@ const sql = require('./src/controller/menu/menu_controller');
 const menuController = require('./src/controller/menu/menu_controller')
 const logingController = require('./src/controller/login/login_controller')
 const productsController = require('./src/controller/products/products_controller')
+const tableController = require('./src/controller/table/table_controller')
 const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
 const {upload,postImage} = require('./src/controller/upload_image/upload_image_controller')   
 const {uploadExcell} = require('./src/controller/upload_excell/upload_excell_controller')   
@@ -65,6 +66,8 @@ app.post('/updateProductQuantity',authMiddleware,productsController.updateProduc
 app.get('/getCompanyInfo',authMiddleware,logingController.getCompanyInfo)
 app.get('/getCompanyInfoWithoutToken',logingController.getCompanyInfoWithoutToken) // token olmadan company info çekebiliriz. Qr için
 app.post('/updateCompanyInfo',authMiddleware,logingController.updateCompanyInfo)
+// tables
+app.get('/getTables',authMiddleware,tableController.getTables) // masaları çeker.
 //uploadExcell
 app.post('/uploadExcell',authMiddleware,uploadExcell)
 // search
