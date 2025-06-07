@@ -68,6 +68,7 @@ app.get('/getCompanyInfoWithoutToken',logingController.getCompanyInfoWithoutToke
 app.post('/updateCompanyInfo',authMiddleware,logingController.updateCompanyInfo)
 // tables
 app.get('/getTables',authMiddleware,tableController.getTables) // masaları çeker.
+app.post('/createTable',authMiddleware,tableController.createTable) // masala ekler.
 //uploadExcell
 app.post('/uploadExcell',authMiddleware,uploadExcell)
 // search
