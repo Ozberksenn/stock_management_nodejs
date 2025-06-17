@@ -30,5 +30,18 @@ createTable = async (req,res) => {
     }
 }
 
+createTableProduct = async (req,res) => {
+    const request = new sql.Request()
+    try {
+        let result = await request.input('PRODUCT_ID',req.body.PRODUCT_ID)
+        .input('TABLE_ID',req.body.TABLE_ID)
+        .input('COMPANYID',req.body.COMPANYID)
+        .execute('CREATETABLEPRODUCT')
+        return new CustomResponse(result,'Table Item Added Succesfully.').success(res)
+    } catch (error) {
+        return new CustomResponse({}, error.toString()).error500(res);
+    }
+}
 
-module.exports = {getTables,createTable}
+
+module.exports = {getTables,createTable,createTableProduct}
