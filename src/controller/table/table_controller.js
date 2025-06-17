@@ -30,6 +30,25 @@ createTable = async (req,res) => {
     }
 }
 
+updateTable = async (req,res) => {
+      const request = new sql.Request()
+    try {
+       let result = await request
+        .input('ID',req.body.ID)
+        .input('TABLE_NO',req.body.TABLE_NO)
+        .input('STATUS',req.body.STATUS)
+        .input('CUSTOMER_NAME',req.body.CUSTOMER_NAME)
+        .input('CUSTOMER_COUNT',req.body.CUSTOMER_COUNT)
+        .input('SPECIAL_TEXT',req.body.SPECIAL_TEXT)
+        .input('COMPANYID',req.company['companyId'])
+        .execute('UPDATETABLE')
+         return new CustomResponse(result,'Table Updated Successfully').success(res)
+    } catch (error) {
+         return new CustomResponse({}, error.toString()).error500(res);
+    }
+
+}
+
 createTableProduct = async (req,res) => {
     const request = new sql.Request()
     try {
@@ -44,4 +63,4 @@ createTableProduct = async (req,res) => {
 }
 
 
-module.exports = {getTables,createTable,createTableProduct}
+module.exports = {getTables,createTable,createTableProduct,updateTable}
