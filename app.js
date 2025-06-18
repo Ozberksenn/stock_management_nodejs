@@ -70,6 +70,7 @@ app.post('/updateCompanyInfo',authMiddleware,logingController.updateCompanyInfo)
 app.get('/getTables',authMiddleware,tableController.getTables) // masaları çeker.
 app.post('/createTable',authMiddleware,tableController.createTable) // masa ekler.
 app.put('/updateTable',authMiddleware,tableController.updateTable) // seçilen masayı günceller.
+app.delete('/deleteTable',authMiddleware,tableController.deleteTable) // seçili masayı siler.
 // table products
 app.post('/createTableProduct',authMiddleware,tableController.createTableProduct) // seçili masa içerisine bir ürün ekler.
 //uploadExcell

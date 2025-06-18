@@ -49,6 +49,16 @@ updateTable = async (req,res) => {
 
 }
 
+deleteTable = async (req,res) => {
+    const request = new sql.Request()
+    try {
+        let result = await request.input('ID',req.body.ID).execute('DELETETABLE')
+        return new CustomResponse(result,"Table deleted successfully").success(res)
+    } catch (error) {
+          return new CustomResponse({}, error.toString()).error500(res);
+    }
+}
+
 createTableProduct = async (req,res) => {
     const request = new sql.Request()
     try {
@@ -62,5 +72,16 @@ createTableProduct = async (req,res) => {
     }
 }
 
+deleteTableProduct = async (req,res) => {
+     const request = new sql.Request()
+    try {
+        let result = await request.input('ID',req.body.ID).execute('DELETETABLE')
+        return new CustomResponse(result,"Table deleted successfully").success(res)
+    } catch (error) {
+          return new CustomResponse({}, error.toString()).error500(res);
+    }
+}
 
-module.exports = {getTables,createTable,createTableProduct,updateTable}
+
+
+module.exports = {getTables,createTable,createTableProduct,updateTable,deleteTable}
