@@ -73,6 +73,7 @@ app.put('/updateTable',authMiddleware,tableController.updateTable) // seçilen m
 app.delete('/deleteTable',authMiddleware,tableController.deleteTable) // seçili masayı siler.
 // table products
 app.post('/createTableProduct',authMiddleware,tableController.createTableProduct) // seçili masa içerisine bir ürün ekler.
+app.delete('/deleteTableProduct',authMiddleware,tableController.deleteTableProduct) // seçili masa içerisinde ki seçilen ürünü siler.
 //uploadExcell
 app.post('/uploadExcell',authMiddleware,uploadExcell)
 // search
