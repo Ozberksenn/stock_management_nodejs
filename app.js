@@ -6,6 +6,7 @@ const menuController = require('./src/controller/menu/menu_controller')
 const logingController = require('./src/controller/login/login_controller')
 const productsController = require('./src/controller/products/products_controller')
 const tableController = require('./src/controller/table/table_controller')
+const {reportCrtiticalStockQuantity} = require('./src/controller/reports/reports_controller')
 const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
 const {upload,postImage} = require('./src/controller/upload_image/upload_image_controller')   
 const {uploadExcell} = require('./src/controller/upload_excell/upload_excell_controller')   
@@ -83,3 +84,5 @@ app.post('/postCustomerContact',postCustomerContact), // misafirlerin form kayı
 app.delete('/deleteCustomerContact',deleteCustomerContact) // misafirlerin form kayıtlarını siler.
 app.get('/getCustomerContact',authMiddleware,getCustomerContact) // misafirlerin sisteme kaydı için olan formu çeker.
 app.get('/getLogs',authMiddleware,getLogs) // log kayıtlarını çeker.
+// reports : 
+app.get('/report-critical-stock-quantity',authMiddleware,reportCrtiticalStockQuantity) // stok adedi azalanların raporu. 
