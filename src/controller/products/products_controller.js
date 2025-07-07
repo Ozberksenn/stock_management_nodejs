@@ -51,11 +51,10 @@ const updateProduct = async (req,res) => {
     const request = new sql.Request()
     try {
         let result = await request
-        .input('productId',req.body.productId)
+        .input('ProductId',req.body.ProductId)
         .input('MenuId',req.body.MenuId)
-        .input('CompanyId',req.body.CompanyId)
         .input('ProductName',req.body.ProductName)
-        .input('ProductDescription',req.body.Product-Description)
+        .input('ProductDescription',req.body.ProductDescription)
         .input('ShowStore',req.body.ShowStore)
         .input('Price',req.body.Price)
         .input('Quantity',req.body.Quantity)
