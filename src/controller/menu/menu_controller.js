@@ -6,7 +6,7 @@ getMenu = async (req,res) => {
     // req.company den login olmuş token bilgileri geliyor.
     const request = new sql.Request()
      try {
-            let result = await request.input('COMPANYID',req.company['companyId']).execute('GETMENU')
+            let result = await request.input('CompanyId',req.company['companyId']).execute('usp_GetMenus')
             return new CustomResponse(result.recordset,'Success').success(res)
         } catch (error) {
             return new CustomResponse({}, error.toString()).error500(res);
@@ -17,7 +17,7 @@ getMenuWithoutToken = async (req,res) => {
     const request = new sql.Request()
      try {
             const companyId = req.query.companyId;
-            let result = await request.input('COMPANYID',companyId).execute('GETMENU')
+            let result = await request.input('CompanyId',companyId).execute('usp_GetMenus')
             return new CustomResponse(result.recordset,'Success').success(res)
         } catch (error) {
             return new CustomResponse({}, error.toString()).error500(res);
@@ -27,12 +27,12 @@ getMenuWithoutToken = async (req,res) => {
 postMenu = async (req,res) => {
     const request = new sql.Request()
         try {
-             let result = await request.input('MENUNAME',req.body.MENUNAME)
-             .input('COMPANYID',req.body.COMPANYID)
-             .input('MENUDESCRIPTION',req.body.MENUDESCRIPTION)
-             .input('MENUIMAGE',req.body.MENUIMAGE)
-             .input('SHOWSTORE',req.body.SHOWSTORE)
-             .execute('POSTMENU')
+             let result = await request.input('Name',req.body.Name)
+             .input('CompanyId',req.body.CompanyId)
+             .input('Description',req.body.Description)
+             .input('Image',req.body.Image)
+             .input('ShowStore',req.body.ShowStore)
+             .execute('usp_InsertMenu')
              return new CustomResponse(result,'Menu Added Successfully').success(res)
         } catch (error) {
             return new CustomResponse({}, error.toString()).error500(res);
@@ -45,7 +45,7 @@ postMenu = async (req,res) => {
 deleteMenu = async (req,res) => {
     const request = new sql.Request()
         try {
-            let result = await request.input('MENUID',req.body.MENUID).execute('DELETEMENU')
+            let result = await request.input('MenuId',req.body.MenuId).execute('usp_deleteMenu')
             return new CustomResponse(result,'Menu Deleted Successfully').success(res)
         } catch (error) {
             return new CustomResponse({}, error.toString()).error500(res);
@@ -57,12 +57,12 @@ deleteMenu = async (req,res) => {
 updateMenu = async (req,res) => {
     const request = new sql.Request()
     try {
-         let result = await request.input('MENUID',req.body.MENUID)
-        .input('MENUNAME',req.body.MENUNAME)
-        .input('MENUDESCRIPTION',req.body.MENUDESCRIPTION)
-        .input('MENUIMAGE',req.body.MENUIMAGE)
-        .input('SHOWSTORE',req.body.SHOWSTORE)
-        .execute('UPDATEMENU')
+         let result = await request.input('MenuId',req.body.MenuId)
+        .input('Name',req.body.Name)
+        .input('Description',req.body.Description)
+        .input('Image',req.body.Image)
+        .input('ShowStore',req.body.ShowStore)
+        .execute('usp_UpdateMenu')
         return new CustomResponse(result,'Menu Update Successfully').success(res)
     } catch (error) {
          return new CustomResponse({}, error.toString()).error500(res);

@@ -10,12 +10,12 @@ insertLog = async (reqLog,resLog) => {
     const request = new sql.Request()
     try {
          await request
-        .input('COMPANY', JSON.stringify(reqLog.company))
-        .input('ORIGINALURL',reqLog.originalUrl)
-        .input('BODY', JSON.stringify(reqLog.body))
-        .input('STATUSCODE',resLog.statusCode.toString())
-        .input('STATUSMESSAGE',resLog.statusMessage)
-        .execute('INSERTLOG');
+        .input('Company', JSON.stringify(reqLog.company))
+        .input('OriginalUrl',reqLog.originalUrl)
+        .input('Body', JSON.stringify(reqLog.body))
+        .input('StatusCode',resLog.statusCode.toString())
+        .input('StatusMessage',resLog.statusMessage)
+        .execute('usp_InsertLog');
         return {success: true, message: "Log created"};
     } catch (error) {
         return {success: false, message: error};
@@ -25,7 +25,7 @@ insertLog = async (reqLog,resLog) => {
 getLogs = async (req,res) => {
     const request = new sql.Request()
     try {
-        let result = await request.execute('LOG_GET')
+        let result = await request.execute('usp_GetLogs')
         return new CustomResponse(result.recordset,'success').success(res)
     } catch (error) {
         return new CustomResponse([],error).error400(res)

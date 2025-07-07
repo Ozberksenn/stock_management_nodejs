@@ -86,3 +86,7 @@ app.get('/getCustomerContact',authMiddleware,getCustomerContact) // misafirlerin
 app.get('/getLogs',authMiddleware,getLogs) // log kayıtlarını çeker.
 // reports : 
 app.get('/report-critical-stock-quantity',authMiddleware,reportCrtiticalStockQuantity) // stok adedi azalanların raporu. 
+
+
+
+// mssql : https://chatgpt.com/share/686a5601-f96c-8013-b65e-361c1adceaf3

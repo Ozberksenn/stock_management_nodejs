@@ -6,7 +6,7 @@ const {insertLog} = require('../admin/logger')
 getTables = async (req,res) => {
      const request = new sql.Request()
          try {
-                let result = await request.input('COMPANYID',req.company['companyId']).execute('GETTABLES')
+                let result = await request.input('CompanyId',req.company['companyId']).execute('usp_GetTables')
                 return new CustomResponse(result.recordset,'Success').success(res)
             } catch (error) {
                 return new CustomResponse({}, error.toString()).error500(res);
@@ -17,13 +17,13 @@ createTable = async (req,res) => {
     const request = new sql.Request()
     try {
        let result = await request
-        .input('TABLE_NO',req.body.TABLE_NO)
-        .input('STATUS',req.body.STATUS)
-        .input('CUSTOMER_NAME',req.body.CUSTOMER_NAME)
-        .input('CUSTOMER_COUNT',req.body.CUSTOMER_COUNT)
-        .input('SPECIAL_TEXT',req.body.SPECIAL_TEXT)
-        .input('COMPANYID',req.company['companyId'])
-        .execute('CREATETABLE')
+        .input('TableNo',req.body.TableNo)
+        .input('Status',req.body.Status)
+        .input('CustomerName',req.body.CustomerName)
+        .input('CustomerCount',req.body.CustomerCount)
+        .input('SpecialText',req.body.SpecialText)
+        .input('CompanyId',req.company['companyId'])
+        .execute('usp_InsertTable')
          return new CustomResponse(result,'Table Added Successfully').success(res)
     } catch (error) {
          return new CustomResponse({}, error.toString()).error500(res);
@@ -34,14 +34,14 @@ updateTable = async (req,res) => {
       const request = new sql.Request()
     try {
        let result = await request
-        .input('ID',req.body.ID)
-        .input('TABLE_NO',req.body.TABLE_NO)
-        .input('STATUS',req.body.STATUS)
-        .input('CUSTOMER_NAME',req.body.CUSTOMER_NAME)
-        .input('CUSTOMER_COUNT',req.body.CUSTOMER_COUNT)
-        .input('SPECIAL_TEXT',req.body.SPECIAL_TEXT)
-        .input('COMPANYID',req.company['companyId'])
-        .execute('UPDATETABLE')
+        .input('TableId',req.body.TableId)
+        .input('TableNo',req.body.TableNo)
+        .input('Status',req.body.Status)
+        .input('CustomerName',req.body.CustomerName)
+        .input('CustomerCount',req.body.CustomerCount)
+        .input('SpecialText',req.body.SpecialText)
+        .input('CompanyId',req.company['companyId'])
+        .execute('usp_UpdateTable')
          return new CustomResponse(result,'Table Updated Successfully').success(res)
     } catch (error) {
          return new CustomResponse({}, error.toString()).error500(res);
@@ -52,7 +52,7 @@ updateTable = async (req,res) => {
 deleteTable = async (req,res) => {
     const request = new sql.Request()
     try {
-        let result = await request.input('ID',req.body.ID).execute('DELETETABLE')
+        let result = await request.input('TableId',req.body.TableId).execute('usp_DeleteTable')
         return new CustomResponse(result,"Table deleted successfully").success(res)
     } catch (error) {
           return new CustomResponse({}, error.toString()).error500(res);
@@ -62,10 +62,10 @@ deleteTable = async (req,res) => {
 createTableProduct = async (req,res) => {
     const request = new sql.Request()
     try {
-        let result = await request.input('PRODUCT_ID',req.body.PRODUCT_ID)
-        .input('TABLE_ID',req.body.TABLE_ID)
-        .input('COMPANYID',req.body.COMPANYID)
-        .execute('CREATETABLEPRODUCT')
+        let result = await request.input('ProductId',req.body.ProductId)
+        .input('TableId',req.body.TableId)
+        .input('CompanyId',req.body.CompanyId)
+        .execute('usp_InsertTableProduct')
         return new CustomResponse(result,'Table Item Added Succesfully.').success(res)
     } catch (error) {
         return new CustomResponse({}, error.toString()).error500(res);
@@ -75,7 +75,7 @@ createTableProduct = async (req,res) => {
 deleteTableProduct = async (req,res) => {
      const request = new sql.Request()
     try {
-        let result = await request.input('ID',req.body.ID).execute('DELETETABLEPRODUCT')
+        let result = await request.input('TableId',req.body.TableId).execute('usp_DeleteTableProduct')
         return new CustomResponse(result,"Order deleted successfully").success(res)
     } catch (error) {
           return new CustomResponse({}, error.toString()).error500(res);

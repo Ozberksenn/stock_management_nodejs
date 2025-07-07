@@ -7,22 +7,22 @@ const {CustomResponse} = require('../../utils/response')
 loginCompany = async (req,res) => {
     const request = new sql.Request()
     try {
-    const result = await request.input('MAIL',req.body.MAIL).execute('COMPANYLOGIN')
+    const result = await request.input('Mail',req.body.Mail).execute('usp_Login')
     if (!result.recordset || result.recordset.length === 0) {
         return new CustomResponse({}, 'Invalid email or password!').error401(res);
     }      
     const company = result.recordset[0];
-    const isPasswordValid = await bcrypt.compare(req.body.PASSWORD, company.PASSWORD);
+    const isPasswordValid = await bcrypt.compare(req.body.Password, company.Password);
     if (!isPasswordValid) {
         return new CustomResponse({}, 'Invalid email or password!').error401(res);
     }
     const accessToken = jwt.sign(
-        { companyId: company.ID,mail:company.MAIL,companyName:company.COMPANYNAME,role:company.ROLE},
+        { companyId: company.CompanyId,mail:company.Mail,companyName:company.CompanyName,role:company.Role},
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '2d' }
     );
     const refreshToken = jwt.sign(
-        { companyId: company.ID,mail:company.MAIL,companyName:company.COMPANYNAME,role:company.ROLE},
+        { companyId: company.CompanyId,mail:company.Mail,companyName:company.CompanyName,role:company.Role},
         process.env.REFRESH_TOKEN_SECRET
     );
     return new CustomResponse({
@@ -38,17 +38,17 @@ updatePassword = async (req,res) => {
     const request = new sql.Request()
     const updatePasswordRequest = new sql.Request()
     try {
-        const result = await request.input('MAIL',req.body.MAIL).execute('COMPANYLOGIN')
+        const result = await request.input('Mail',req.body.Mail).execute('usp_Login')
         if (!result.recordset || result.recordset.length === 0) {
             return new CustomResponse({}, 'Invalid email or password!').error401(res);
         }   
         const company = result.recordset[0];
-        const isPasswordValid = await bcrypt.compare(req.body.PASSWORD, company.PASSWORD);
+        const isPasswordValid = await bcrypt.compare(req.body.Password, company.Password);
         if (!isPasswordValid) {
             return new CustomResponse({}, 'Invalid email or password!').error401(res);
         }
-        const hashedNewPassword = await bcrypt.hash(req.body.NEWPASSWORD, 10);
-        await updatePasswordRequest.input('COMPANYID',req.company['companyId']).input('NEWPASSWORD',hashedNewPassword.toString()).execute('PASSWORD_UPDATE')
+        const hashedNewPassword = await bcrypt.hash(req.body.NewPassword, 10);
+        await updatePasswordRequest.input('CompanyId',req.company['companyId']).input('NewPassword',hashedNewPassword.toString()).execute('usp_UpdatePassword')
         return new CustomResponse({},'password update success').success(res)
     } catch (error) {
         return new CustomResponse({}, error.toString()).error401(res);
@@ -60,12 +60,12 @@ createCompany = async (req,res) => {
     const request = new sql.Request()
     try {
         const hashedPassword = await bcrypt.hash(req.body.PASSWORD, 10);
-        await request.input('COMPANYNAME',req.body.COMPANYNAME)
-        .input('MAIL',req.body.MAIL)
-        .input('PASSWORD',hashedPassword)
-        .input('ROLE',req.body.ROLE)
-        .execute('CREATECOMPANY')
-        return new CustomResponse({},'created company').success(res)
+        await request.input('CompanyName',req.body.CompanyName)
+        .input('Mail',req.body.Mail)
+        .input('Password',hashedPassword)
+        .input('Role',req.body.Role)
+        .execute('usp_CreateCompany')
+        return new CustomResponse({},'successfully').success(res)
     } catch (error) {
         return new CustomResponse({}, error.toString()).error500(res);
     }
@@ -75,7 +75,7 @@ createCompany = async (req,res) => {
 getCompanyInfo = async (req,res) => {
     const request = new sql.Request()
     try {
-         let result = await request.input('COMPANYID',req.company['companyId']).execute('GETCOMPANYINFO')
+         let result = await request.input('CompanyId',req.company['companyId']).execute('usp_GetCompanyInfo')
          return new CustomResponse(result.recordsets[0],'Success').success(res)
     } catch (error) {
         return new CustomResponse({}, error.toString()).error500(res);
@@ -86,7 +86,7 @@ getCompanyInfoWithoutToken = async (req,res) => {
     const request = new sql.Request()
     try {
          const companyId = req.query.companyId;
-         let result = await request.input('COMPANYID',companyId).execute('GETCOMPANYINFO')
+         let result = await request.input('CompanyId',companyId).execute('usp_GetCompanyInfo')
          return new CustomResponse(result.recordsets[0],'Success').success(res)
     } catch (error) {
         return new CustomResponse({}, error.toString()).error500(res);
@@ -97,16 +97,16 @@ getCompanyInfoWithoutToken = async (req,res) => {
 updateCompanyInfo = async (req,res) => {
     const request = new sql.Request()
     try {
-        let result = await request.input('COMPANYID',req.company['companyId'])
-        .input('COMPANYNAME',req.body.COMPANYNAME)
-        .input('CONTACTMAIL',req.body.CONTACTMAIL)
-        .input('PHONE',req.body.PHONE)
-        .input('LOGO',req.body.LOGO)
-        .input('QRURL',req.body.QRURL)
-        .input('ADDRESS',req.body.ADDRESS)
-        .input('WORKINGHOURS',req.body.WORKINGHOURS)
-        .input('SOCIALMEDIA',req.body.SOCIALMEDIA)
-        .execute('UPDATECOMPANYINFO')
+        let result = await request.input('CompanyId',req.company['companyId'])
+        .input('CompanyName',req.body.CompanyName)
+        .input('ContactMail',req.body.ContactMail)
+        .input('Phone',req.body.Phone)
+        .input('Logo',req.body.Logo)
+        .input('QrUrl',req.body.QrUrl)
+        .input('Address',req.body.Address)
+        .input('WorkingHours',req.body.WorkingHours)
+        .input('SocialMedia',req.body.SocialMedia)
+        .execute('usp_UpdateCompanyInfo')
         return new CustomResponse(result,'Success').success(res)
     } catch (error) {
         return new CustomResponse({}, error.toString()).error500(res);
