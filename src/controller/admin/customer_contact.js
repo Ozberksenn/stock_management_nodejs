@@ -31,7 +31,7 @@ deleteCustomerContact = async (req,res) => {
     const request = new sql.Request()
     try {
         await request
-        .input('Customers',req.body.CUSTOMERS)
+        .input('Customers',req.body.Customers)
         .execute('usp_DeleteCustomerContact');
         return new CustomResponse({},'success').success(res)
     } catch (error) {

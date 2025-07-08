@@ -59,7 +59,7 @@ updatePassword = async (req,res) => {
 createCompany = async (req,res) => {
     const request = new sql.Request()
     try {
-        const hashedPassword = await bcrypt.hash(req.body.PASSWORD, 10);
+        const hashedPassword = await bcrypt.hash(req.body.Password, 10);
         await request.input('CompanyName',req.body.CompanyName)
         .input('Mail',req.body.Mail)
         .input('Password',hashedPassword)
