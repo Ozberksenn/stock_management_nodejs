@@ -13,6 +13,8 @@ const {uploadExcell} = require('./src/controller/upload_excell/upload_excell_con
 const {searchProduct} = require('./src/controller/app_controller')   
 const {postCustomerContact, getCustomerContact, deleteCustomerContact} = require('./src/controller/admin/customer_contact')
 const {getLogs} = require('./src/controller/admin/logger')
+// validations 
+const { AuthValidation } = require('./src/middlewares/validation/auth.validation')
 
 const app = express();
 app.use(cors({
@@ -32,18 +34,19 @@ app.use(express.json()); // bu satır çok önemli Express, gelen JSON verilerin
 // swagger
 var swaggerUi = require('swagger-ui-express');
 swaggerDocument = require('./swagger.json');
-app.use('/uploads', express.static('uploads')); // http://localhost:8080/uploads/1739391195139.jpg
+app.use('/uploads', express.static('uploads')); //http://localhost:8080/uploads/1739391195139.jpg
 app.use('/swagger',swaggerUi.serve,swaggerUi.setup(swaggerDocument))
 
 app.get('/',(req,res) => {
     res.json({
-        'message': 'welcome to stock management'
+        'message': 'Welcome'
     })
 })
 
 // login 
-app.post('/login',logingController.loginCompany)
-app.post('/createCompany',logingController.createCompany)
+// 
+app.post('/login',AuthValidation.login,logingController.loginCompany)
+app.post('/createCompany',AuthValidation.register,logingController.createCompany)
 app.post('/updatePassword',authMiddleware,logingController.updatePassword)
 // products
 app.get('/getProducts',authMiddleware,productsController.getProducts)
