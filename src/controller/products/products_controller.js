@@ -37,7 +37,7 @@ const createProduct = async (req,res) => {
         .input('Quantity',req.body.Quantity)
         .input('Image',req.body.Image)
         .input('Barcode',req.body.Barcode)
-        .input('ProductVariation',req.body.ProductVariation)
+        .input('ProductVariants',req.body.ProductVariants)
         .execute('usp_InsertProduct')
         return new CustomResponse(result,'Product Added Successfully').success(res)
     } catch (error) {
@@ -60,7 +60,7 @@ const updateProduct = async (req,res) => {
         .input('Quantity',req.body.Quantity)
         .input('Image',req.body.Image)
         .input('Barcode',req.body.Barcode)
-        .input('ProductVariation',req.body.ProductVariation)
+        .input('ProductVariants',req.body.ProductVariants)
        .execute('usp_UpdateProduct')
        return new CustomResponse(result,'Product Update Successfully').success(res)
    } catch (error) {

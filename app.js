@@ -18,7 +18,7 @@ const { AuthValidation } = require('./src/middlewares/validation/auth.validation
 
 const app = express();
 app.use(cors({
-    origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app','https://stock-management-ashy.vercel.app','http://localhost:5173','https://qr-menu-react.vercel.app' , 'https://vertically-quick-crappie.ngrok-free.app'],  // with NGROK
+    origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app','https://stock-management-ashy.vercel.app','http://localhost:5173','https://qr-menu-react.vercel.app' , 'https://vertically-quick-crappie.ngrok-free.app','qr-menu-client-one.vercel.app'],  // with NGROK
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization',"ngrok-skip-browser-warning"]
   }));
@@ -44,8 +44,7 @@ app.get('/',(req,res) => {
 })
 
 // login 
-// 
-app.post('/login',AuthValidation.login,logingController.loginCompany)
+app.post('/login',logingController.loginCompany)
 app.post('/createCompany',AuthValidation.register,logingController.createCompany)
 app.post('/updatePassword',authMiddleware,logingController.updatePassword)
 // products
