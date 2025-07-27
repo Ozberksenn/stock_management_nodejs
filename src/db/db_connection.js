@@ -1,14 +1,15 @@
 const sql = require('mssql');
-// todo configi .env i.erisine alacağız. 
+require('dotenv').config();
+ 
 const config = {
-    server:'localhost', // veya IP adresi
-    database: 'STOCK',
-    user: 'sa',
-    password: '1',
+    server:process.env.SERVER, 
+    database: process.env.DATABASE,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
     options: {
-        encrypt: false, // Verilerin şifrelenmesi
-        trustedConnection: false,
-        port: 1433,  // Port numarasını belirtmek
+        encrypt: true, 
+        trustedConnection: true,
+        // port: 1433,  // Port numarasını belirtmek
     }
 };
 
