@@ -53,7 +53,7 @@ app.get('/getProductsWithoutToken',productsController.getProductWithoutToken)// 
 app.post('/createProducts',authMiddleware,productsController.createProduct)
 app.put('/updateProduct',authMiddleware,productsController.updateProduct)
 app.delete('/deleteProduct',authMiddleware,productsController.deleteProduct)
-app.put('/productOrderUpdate',authMiddleware,productsController.productOrderUpdate) // product sırasını güncellemke için kullanıldı.
+app.put('/productOrderUpdate',authMiddleware,productsController.productOrderUpdate) // product sırasını güncellemek için kullanıldı.
 // menu 
 app.get('/getMenu',authMiddleware,menuController.getMenu)
 app.get('/getMenuWithoutToken',menuController.getMenuWithoutToken) // token olmadan menüleri çekebiliriz. Qr için
