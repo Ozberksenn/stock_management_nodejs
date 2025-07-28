@@ -19,7 +19,7 @@ const { AuthValidation } = require('./src/middlewares/validation/auth.validation
 const app = express();
 const PORT = process.env.PORT || 8080;
 app.use(cors({
-    origin: ['https://stock-management-ashy.vercel.app','https://qr-menu-react.vercel.app','qr-menu-client-one.vercel.app'],  // with NGROK
+    origin: ['https://stock-management-ashy.vercel.app','https://qr-menu-react.vercel.app','qr-menu-client-one.vercel.app','http://localhost:8080'],  // with NGROK
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
   }));
