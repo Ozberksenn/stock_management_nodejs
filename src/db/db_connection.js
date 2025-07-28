@@ -8,7 +8,7 @@ const config = {
     password: process.env.PASSWORD,
     options: {
         encrypt: true, 
-        trustedConnection: true,
+        trustedConnection: false,
         // port: 1433,  // Port numarasını belirtmek
     }
 };
