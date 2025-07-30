@@ -19,9 +19,9 @@ const { AuthValidation } = require('./src/middlewares/validation/auth.validation
 const app = express();
 const PORT = process.env.PORT || 8080;
 app.use(cors({
-     origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app','https://stock-management-ashy.vercel.app','http://localhost:5173','https://qr-menu-react.vercel.app' , 'https://vertically-quick-crappie.ngrok-free.app'],  // with NGROK
+    origin: ['https://stock-management-ashy.vercel.app','https://qr-menu-react.vercel.app','qr-menu-client-one.vercel.app','http://localhost:8080','http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization',"ngrok-skip-browser-warning"]
+    allowedHeaders: ['Content-Type', 'Authorization']
   }));
 dotenv.config() // dotenv 
 app.listen(PORT,()=>{
