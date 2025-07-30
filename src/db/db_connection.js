@@ -8,8 +8,8 @@ const config = {
     password: process.env.PASSWORD,
     options: {
         encrypt: false, // local için false
-        trustServerCertificate: true, // SSL sertifikasına gerek yok
-        port: 1433,  // Port numarasını belirtmek
+        // trustServerCertificate: true, // SSL sertifikasına gerek yok
+        // port: 1433,  // Port numarasını belirtmek
     }
 };
 
