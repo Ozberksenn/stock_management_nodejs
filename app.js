@@ -19,7 +19,7 @@ const { AuthValidation } = require('./src/middlewares/validation/auth.validation
 const app = express();
 const PORT = process.env.PORT || 8080;
 app.use(cors({
-    origin: ['https://stock-management-ashy.vercel.app','https://qr-menu-react.vercel.app','qr-menu-client-one.vercel.app','http://localhost:8080','http://localhost:5173'],
+    origin: ['https://stock-management-ashy.vercel.app','https://qr-menu-react.vercel.app','https://qr-menu-client-one.vercel.app','http://localhost:8080','http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
   }));
