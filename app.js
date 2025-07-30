@@ -61,6 +61,7 @@ app.get('/getMenuWithoutToken',menuController.getMenuWithoutToken) // token olma
 app.post('/postMenu',authMiddleware,menuController.postMenu)
 app.delete('/deleteMenu',authMiddleware,menuController.deleteMenu)
 app.put('/updateMenu',authMiddleware,menuController.updateMenu) 
+app.put('/menuOrderUpdate',authMiddleware,menuController.menuOrderUpdate) // menu sırasını güncellemek için kullanıldı.
 // upload image 
 app.post('/uploadImage',upload.single('image'),postImage)
 //sale

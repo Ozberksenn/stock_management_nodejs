@@ -71,5 +71,18 @@ updateMenu = async (req,res) => {
     }
 }
 
-module.exports = {getMenu,getMenuWithoutToken,postMenu,deleteMenu,updateMenu};
+const menuOrderUpdate = async (req,res) => {
+    const request = new sql.Request()
+    try {
+        let result = await request.input('CompanyId',req.company['companyId'])
+        .input('MenuId',req.body.MenuId)
+        .input('NewOrder',req.body.NewOrder)
+        .execute('usp_UpdateMenuOrder')
+        return new CustomResponse(result,'Success').success(res)
+    } catch (error) {
+        return new CustomResponse({}, error.toString()).error500(res);
+    }
+}
+
+module.exports = {getMenu,getMenuWithoutToken,postMenu,deleteMenu,updateMenu,menuOrderUpdate};
 
