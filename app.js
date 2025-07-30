@@ -19,9 +19,9 @@ const { AuthValidation } = require('./src/middlewares/validation/auth.validation
 const app = express();
 const PORT = process.env.PORT || 8080;
 app.use(cors({
-    origin: ['https://stock-management-ashy.vercel.app','https://qr-menu-react.vercel.app','qr-menu-client-one.vercel.app','http://localhost:8080','http://localhost:5173'],  // with NGROK
+     origin: ['http://localhost:8080', 'https://helped-pig-glad.ngrok-free.app','https://stock-management-ashy.vercel.app','http://localhost:5173','https://qr-menu-react.vercel.app' , 'https://vertically-quick-crappie.ngrok-free.app'],  // with NGROK
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization',"ngrok-skip-browser-warning"]
   }));
 dotenv.config() // dotenv 
 app.listen(PORT,()=>{
@@ -61,6 +61,7 @@ app.get('/getMenuWithoutToken',menuController.getMenuWithoutToken) // token olma
 app.post('/postMenu',authMiddleware,menuController.postMenu)
 app.delete('/deleteMenu',authMiddleware,menuController.deleteMenu)
 app.put('/updateMenu',authMiddleware,menuController.updateMenu) 
+app.put('/menuOrderUpdate',authMiddleware,menuController.menuOrderUpdate) // menu sırasını güncellemek için kullanıldı.
 // upload image 
 app.post('/uploadImage',upload.single('image'),postImage)
 //sale
