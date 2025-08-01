@@ -8,7 +8,7 @@ const productsController = require('./src/controller/products/products_controlle
 const tableController = require('./src/controller/table/table_controller')
 const {reportCrtiticalStockQuantity} = require('./src/controller/reports/reports_controller')
 const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
-const {upload,postImage} = require('./src/controller/upload_image/upload_image_controller')   
+const {upload,uploadImage} = require('./src/controller/upload_image/upload_image_controller')   
 const {uploadExcell} = require('./src/controller/upload_excell/upload_excell_controller')   
 const {searchProduct} = require('./src/controller/app_controller')   
 const {postCustomerContact, getCustomerContact, deleteCustomerContact} = require('./src/controller/admin/customer_contact')
@@ -63,7 +63,8 @@ app.delete('/deleteMenu',authMiddleware,menuController.deleteMenu)
 app.put('/updateMenu',authMiddleware,menuController.updateMenu) 
 app.put('/menuOrderUpdate',authMiddleware,menuController.menuOrderUpdate) // menu sırasını güncellemek için kullanıldı.
 // upload image 
-app.post('/uploadImage',upload.single('image'),postImage)
+// app.post('/uploadImage',upload.single('image'),postImage)
+app.post('/uploadImage',upload.single('file'),uploadImage)
 //sale
 app.post('/findProductWithBarcode',authMiddleware,productsController.findProductWithBarcode) // barcode no ya göre barcode bulup getiriyor.
 app.post('/updateProductQuantity',authMiddleware,productsController.updateProductQuantity) // stock miktarını güncelleyen api.
