@@ -1,3 +1,4 @@
+const sql = require('../../db/db_connection')
 const multer  = require('multer') // image yüklerken kullandığım paket.
 const path = require('path'); // image yüklerken dosya yolu için ekliyorum.
 const { BlobServiceClient } = require('@azure/storage-blob');
@@ -29,26 +30,19 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-
-// const postImage = (req,res) => {
-//     if (!req.file) {
-//         return res.status(400).send('No file uploaded.');
-//       }
-//       res.send({
-//         message: 'File uploaded successfully!',
-//         file: req.file
-//       });
-// }
+function connectionBlobService (){
+    const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
+    const containerName = 'stockcontainer'; 
+    return blobServiceClient.getContainerClient(containerName);
+}
 
 const uploadImage = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send('No file uploaded.');
     }
-    const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
 
-    const containerName = 'stockcontainer'; 
-    const containerClient = blobServiceClient.getContainerClient(containerName);
+   const containerClient = connectionBlobService()
 
     // Dosya adı ve yolu
     const filePath = req.file.path;
@@ -77,7 +71,34 @@ const fileBuffer = fs.readFileSync(filePath);
   }
 };
 
+const cleanUnusedImages = async () =>{
+    const request = new sql.Request()
+    try {
+        const result = await request.query`SELECT Image FROM Products`;
+        const dbImageNames = result.recordset.map(row => row.Image);
+
+        const containerClient = connectionBlobService()
+
+
+        const blobNames = [];
+        for await (const blob of containerClient.listBlobsFlat()) {
+          blobNames.push(blob.name);
+        }
+
+        const orphanBlobs = blobNames.filter(blob => !dbImageNames.includes(blob));  // veritabanında olmayanların listesini tutuyorum.
+
+        for (const blobName of orphanBlobs) {
+          const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+          await blockBlobClient.deleteIfExists();
+        }
+    } catch (error) {
+       console.error('Error Clean Images:', error.message);
+    }
+   
+}
 
 
 
-module.exports = {upload,uploadImage};
+
+
+module.exports = {upload,uploadImage,cleanUnusedImages};

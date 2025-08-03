@@ -8,11 +8,14 @@ const productsController = require('./src/controller/products/products_controlle
 const tableController = require('./src/controller/table/table_controller')
 const {reportCrtiticalStockQuantity} = require('./src/controller/reports/reports_controller')
 const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
-const {upload,uploadImage} = require('./src/controller/upload_image/upload_image_controller')   
+const {upload,uploadImage,cleanUnusedImages} = require('./src/controller/upload_image/upload_image_controller')   
 const {uploadExcell} = require('./src/controller/upload_excell/upload_excell_controller')   
 const {searchProduct} = require('./src/controller/app_controller')   
 const {postCustomerContact, getCustomerContact, deleteCustomerContact} = require('./src/controller/admin/customer_contact')
 const {getLogs} = require('./src/controller/admin/logger')
+const cron = require('node-cron');
+
+
 // validations 
 const { AuthValidation } = require('./src/middlewares/validation/auth.validation')
 
@@ -38,10 +41,16 @@ swaggerDocument = require('./swagger.json');
 app.use('/uploads', express.static('uploads')); //http://localhost:8080/uploads/1739391195139.jpg
 app.use('/swagger',swaggerUi.serve,swaggerUi.setup(swaggerDocument))
 
-app.get('/',(req,res) => {
+app.get('/', async (req,res) => {
     res.json({
         'message': 'Welcome'
     })
+    // try {
+    //     await cleanUnusedImages();
+    //     console.log('[CRON] Blob temizlik işlemi tamamlandı.');
+    // } catch (err) {
+    //     console.error('[CRON] Blob temizlerken hata:', err.message);
+    // }
 })
 
 // login 
@@ -63,7 +72,6 @@ app.delete('/deleteMenu',authMiddleware,menuController.deleteMenu)
 app.put('/updateMenu',authMiddleware,menuController.updateMenu) 
 app.put('/menuOrderUpdate',authMiddleware,menuController.menuOrderUpdate) // menu sırasını güncellemek için kullanıldı.
 // upload image 
-// app.post('/uploadImage',upload.single('image'),postImage)
 app.post('/uploadImage',upload.single('file'),uploadImage)
 //sale
 app.post('/findProductWithBarcode',authMiddleware,productsController.findProductWithBarcode) // barcode no ya göre barcode bulup getiriyor.
@@ -93,5 +101,12 @@ app.get('/getLogs',authMiddleware,getLogs) // log kayıtlarını çeker.
 app.get('/report-critical-stock-quantity',authMiddleware,reportCrtiticalStockQuantity) // stok adedi azalanların raporu. 
 
 
-
-// mssql : https://chatgpt.com/share/686a5601-f96c-8013-b65e-361c1adceaf3
+// zamanlayıcı : 
+// cron.schedule('0 2 */3 * *', async () => {
+//   try {
+//     await cleanUnusedImages();
+//     console.log('[CRON] Blob temizlik işlemi tamamlandı.');
+//   } catch (err) {
+//     console.error('[CRON] Blob temizlerken hata:', err.message);
+//   }
+// });
