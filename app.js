@@ -45,12 +45,12 @@ app.get('/', async (req,res) => {
     res.json({
         'message': 'Welcome'
     })
-    // try {
-    //     await cleanUnusedImages();
-    //     console.log('[CRON] Blob temizlik işlemi tamamlandı.');
-    // } catch (err) {
-    //     console.error('[CRON] Blob temizlerken hata:', err.message);
-    // }
+    try {
+        await cleanUnusedImages();
+        console.log('[CRON] Blob temizlik işlemi tamamlandı.');
+    } catch (err) {
+        console.error('[CRON] Blob temizlerken hata:', err.message);
+    }
 })
 
 // login 

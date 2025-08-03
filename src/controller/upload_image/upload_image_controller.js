@@ -2,7 +2,6 @@ const sql = require('../../db/db_connection')
 const multer  = require('multer') // image yüklerken kullandığım paket.
 const path = require('path'); // image yüklerken dosya yolu için ekliyorum.
 const { BlobServiceClient } = require('@azure/storage-blob');
-const { buffer } = require('stream/consumers');
 const fs = require('fs');
 require('dotenv').config();
 
@@ -50,12 +49,12 @@ const uploadImage = async (req, res) => {
 
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-const fileBuffer = fs.readFileSync(filePath);
-    // Dosyayı Azure Blob'a yükle
-    await blockBlobClient.uploadData(fileBuffer,{
-     blobHTTPHeaders: {
-        blobContentType: 'image/png' // dinamik content type
-      },
+    const fileBuffer = fs.readFileSync(filePath);
+        // Dosyayı Azure Blob'a yükle
+        await blockBlobClient.uploadData(fileBuffer,{
+        blobHTTPHeaders: {
+            blobContentType: 'image/png' // dinamik content type
+          },
     });
 
     const blobUrl = blockBlobClient.url;
