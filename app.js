@@ -13,7 +13,7 @@ const {uploadExcell} = require('./src/controller/upload_excell/upload_excell_con
 const {searchProduct} = require('./src/controller/app_controller')   
 const {postCustomerContact, getCustomerContact, deleteCustomerContact} = require('./src/controller/admin/customer_contact')
 const {getLogs} = require('./src/controller/admin/logger')
-const cron = require('node-cron');
+// const cron = require('node-cron');
 
 
 // validations 
