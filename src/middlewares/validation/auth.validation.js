@@ -44,7 +44,7 @@ class AuthValidation {
                     "number.integer": "Rol alanı tam sayı (integer) olmalıdır.",
                     "any.required": "Rol alanı zorunludur.",
                 })
-            }).validateAsync(req.body);
+            }).unknown(true).validateAsync(req.body);
         } catch (error) {
             return res.status(400).json({
                 success: false,
@@ -58,7 +58,7 @@ class AuthValidation {
     static login = async (req,res,next) => {
         try {
             await joi.object({
-                 Mail: joi.string().email().trim().min(3).max(50).required().messages({
+                Mail: joi.string().email().trim().min(3).max(50).required().messages({
                     "string.base": "Email alanı normal metin olmalıdır.",
                     "string.empty": "Email alanı boş olamaz",
                     "string.email": "Lütfen geçerli bir email giriniz.",
@@ -80,14 +80,15 @@ class AuthValidation {
                     "string.pattern.base": "Şifre en az bir büyük harf ve bir özel karakter (örn: !, -, $, vs.) içermelidir.",
                     "string.required": "Şifre alanı zorunludur.",
                 })
-            }).validateAsync(req.body)
+            }).unknown(true).validateAsync(req.body)
+
+            next()
         } catch (error) {
              return res.status(400).json({
                 success: false,
                 message: error.message,
             });
         }
-        next()
     }
 
      static update = async (req,res,next) => {
@@ -121,7 +122,7 @@ class AuthValidation {
                     "string.pattern.base": "Şifre en az bir büyük harf ve bir özel karakter (örn: !, -, $, vs.) içermelidir.",
                     "string.required": "Şifre alanı zorunludur.",
                 })
-            }).validateAsync(req.body)
+            }).unknown(true).validateAsync(req.body)
         } catch (error) {
              return res.status(400).json({
                 success: false,

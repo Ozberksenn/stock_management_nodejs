@@ -54,9 +54,9 @@ app.get('/', async (req,res) => {
 })
 
 // login 
-app.post('/login',logingController.loginCompany)
+app.post('/login',AuthValidation.login,logingController.loginCompany)
 app.post('/createCompany',AuthValidation.register,logingController.createCompany)
-app.post('/updatePassword',authMiddleware,logingController.updatePassword)
+app.post('/updatePassword',AuthValidation.update,authMiddleware,logingController.updatePassword)
 // products
 app.get('/getProducts',authMiddleware,productsController.getProducts)
 app.get('/getProductsWithoutToken',productsController.getProductWithoutToken)// token olmadan products çekebiliriz. Qr için
