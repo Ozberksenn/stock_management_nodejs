@@ -81,7 +81,6 @@ class AuthValidation {
                     "string.required": "Şifre alanı zorunludur.",
                 })
             }).unknown(true).validateAsync(req.body)
-
             next()
         } catch (error) {
              return res.status(400).json({

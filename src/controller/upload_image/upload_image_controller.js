@@ -20,15 +20,19 @@ const storage = multer.diskStorage({
     }
 }) 
 
-// const fileFilter = (req, file, cb) => {
-//     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
-//       cb(null, true); // Eğer jpeg veya png ise kabul et
-//     } else {
-//       cb(new Error('Sadece .jpeg ve .png  dosyalarına izin verilir!'), false); // Hata mesajı
-//     }
-//   };
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/webp'  ) {
+      cb(null, true); 
+    } else {
+      cb(new Error('Sadece .jpeg ve .png  dosyalarına izin verilir!'), false); // Hata mesajı
+    }
+  };
 
-const upload = multer({ storage: storage });
+const upload = multer({
+   storage: storage,
+   limits: { fileSize: 2 * 1024 * 1024 },
+   fileFilter : fileFilter
+ });
 
 function connectionBlobService (){
     const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
@@ -88,15 +92,14 @@ const cleanUnusedImages = async () =>{
         const orphanBlobs = blobNames.filter(blob => !dbImageNames.includes(blob));  // veritabanında olmayanların listesini tutuyorum.
 
         for (const blobName of orphanBlobs) {
-          const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+          const blobSplitedName = blobName.split('https://blobcontainerstock.blob.core.windows.net/stockcontainer/')[1]
+          const blockBlobClient = containerClient.getBlockBlobClient(blobSplitedName);
           await blockBlobClient.deleteIfExists();
         }
     } catch (error) {
        console.error('Error Clean Images:', error.message);
     }
-   
 }
-
 
 
 
