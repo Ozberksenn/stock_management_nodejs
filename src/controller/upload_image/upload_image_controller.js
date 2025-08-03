@@ -3,6 +3,7 @@ const multer  = require('multer') // image yüklerken kullandığım paket.
 const path = require('path'); // image yüklerken dosya yolu için ekliyorum.
 const { BlobServiceClient } = require('@azure/storage-blob');
 const fs = require('fs');
+const { Console } = require('console');
 require('dotenv').config();
 
 
@@ -73,7 +74,7 @@ const uploadImage = async (req, res) => {
 const cleanUnusedImages = async () =>{
     const request = new sql.Request()
     try {
-        const result = await request.query`SELECT Image FROM Products`;
+        const result = await request.query`SELECT Image FROM Products WHERE Image IS NOT NULL`;
         const dbImageNames = result.recordset.map(row => row.Image);
 
         const containerClient = connectionBlobService()
@@ -81,7 +82,7 @@ const cleanUnusedImages = async () =>{
 
         const blobNames = [];
         for await (const blob of containerClient.listBlobsFlat()) {
-          blobNames.push(blob.name);
+          blobNames.push(`https://blobcontainerstock.blob.core.windows.net/stockcontainer/${blob.name}`);
         }
 
         const orphanBlobs = blobNames.filter(blob => !dbImageNames.includes(blob));  // veritabanında olmayanların listesini tutuyorum.

@@ -45,12 +45,12 @@ app.get('/', async (req,res) => {
     res.json({
         'message': 'Welcome'
     })
-    try {
-        await cleanUnusedImages();
-        console.log('[CRON] Blob temizlik işlemi tamamlandı.');
-    } catch (err) {
-        console.error('[CRON] Blob temizlerken hata:', err.message);
-    }
+    // try {
+    //     await cleanUnusedImages();
+    //     console.log('[CRON] Blob temizlik işlemi tamamlandı.');
+    // } catch (err) {
+    //     console.error('[CRON] Blob temizlerken hata:', err.message);
+    // }
 })
 
 // login 
@@ -72,7 +72,8 @@ app.delete('/deleteMenu',authMiddleware,menuController.deleteMenu)
 app.put('/updateMenu',authMiddleware,menuController.updateMenu) 
 app.put('/menuOrderUpdate',authMiddleware,menuController.menuOrderUpdate) // menu sırasını güncellemek için kullanıldı.
 // upload image 
-app.post('/uploadImage',upload.single('file'),uploadImage)
+app.post('/uploadImage',upload.single('file'),uploadImage) // image yükler
+app.get('/cleanBlob',cleanUnusedImages) // blob srevisi kontrol eder datada olmayanları siler.
 //sale
 app.post('/findProductWithBarcode',authMiddleware,productsController.findProductWithBarcode) // barcode no ya göre barcode bulup getiriyor.
 app.post('/updateProductQuantity',authMiddleware,productsController.updateProductQuantity) // stock miktarını güncelleyen api.
