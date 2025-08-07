@@ -6,6 +6,7 @@ const menuController = require('./src/controller/menu/menu_controller')
 const logingController = require('./src/controller/login/login_controller')
 const productsController = require('./src/controller/products/products_controller')
 const tableController = require('./src/controller/table/table_controller')
+const salesController = require('./src/controller/sales/sales_conmtroller')
 const {reportCrtiticalStockQuantity} = require('./src/controller/reports/reports_controller')
 const { authMiddleware } = require('./src/middlewares/auth/auth_middleware');
 const {upload,uploadImage,cleanUnusedImages} = require('./src/controller/upload_image/upload_image_controller')   
@@ -99,10 +100,13 @@ app.delete('/deleteCustomerContact',deleteCustomerContact) // misafirlerin form 
 app.get('/getCustomerContact',authMiddleware,getCustomerContact) // misafirlerin sisteme kaydı için olan formu çeker.
 app.get('/getLogs',authMiddleware,getLogs) // log kayıtlarını çeker.
 // reports : 
-app.get('/report-critical-stock-quantity',authMiddleware,reportCrtiticalStockQuantity) // stok adedi azalanların raporu. 
+app.get('/report-critical-stock-quantity',authMiddleware,reportCrtiticalStockQuantity) // stok adedi azalanların raporu.
+// sales insert and Update Products
+app.post('/insert-completed-order',authMiddleware,salesController.insertCompletedOrder)
 
 
-// zamanlayıcı : 
+
+// zamanlayıcı : görseller için.
 // cron.schedule('0 2 */3 * *', async () => {
 //   try {
 //     await cleanUnusedImages();
