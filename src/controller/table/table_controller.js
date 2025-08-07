@@ -65,6 +65,7 @@ createTableProduct = async (req,res) => {
         let result = await request.input('ProductId',req.body.ProductId)
         .input('TableId',req.body.TableId)
         .input('CompanyId',req.body.CompanyId)
+        .input('VariantId',req.body.VariantId)
         .execute('usp_InsertTableProduct')
         return new CustomResponse(result,'Table Item Added Succesfully.').success(res)
     } catch (error) {
@@ -75,7 +76,8 @@ createTableProduct = async (req,res) => {
 deleteTableProduct = async (req,res) => {
      const request = new sql.Request()
     try {
-        let result = await request.input('TableId',req.body.TableId).execute('usp_DeleteTableProduct')
+        let result = await request.input('TableProductId',req.body.TableProductId)
+        .execute('usp_DeleteTableProduct')
         return new CustomResponse(result,"Order deleted successfully").success(res)
     } catch (error) {
           return new CustomResponse({}, error.toString()).error500(res);
