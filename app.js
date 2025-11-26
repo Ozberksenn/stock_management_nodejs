@@ -23,7 +23,7 @@ const { AuthValidation } = require('./src/middlewares/validation/auth.validation
 const app = express();
 const PORT = process.env.PORT || 8080;
 app.use(cors({
-    origin: ['https://stock-management-ashy.vercel.app','https://qr-menu-react.vercel.app','https://qr-menu-client-one.vercel.app','http://localhost:8080','http://localhost:5173'],
+    origin: ['https://stock-management-ashy.vercel.app','https://qr-menu-react.vercel.app','https://qr-menu-client-one.vercel.app','http://localhost:8080','http://localhost:3000','http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
   }));
@@ -60,13 +60,14 @@ app.post('/createCompany',AuthValidation.register,logingController.createCompany
 app.post('/updatePassword',AuthValidation.update,authMiddleware,logingController.updatePassword)
 // products
 app.get('/getProducts',authMiddleware,productsController.getProducts)
+app.get('/getProductByMenuId',productsController.getProductByMenuId)
 app.get('/getProductsWithoutToken',productsController.getProductWithoutToken)// token olmadan products çekebiliriz. Qr için
 app.post('/createProducts',authMiddleware,productsController.createProduct)
 app.put('/updateProduct',authMiddleware,productsController.updateProduct)
 app.delete('/deleteProduct',authMiddleware,productsController.deleteProduct)
 app.put('/productOrderUpdate',authMiddleware,productsController.productOrderUpdate) // product sırasını güncellemek için kullanıldı.
 // menu 
-app.get('/getMenu',authMiddleware,menuController.getMenu)
+app.get('/getMenu',menuController.getMenu)
 app.get('/getMenuWithoutToken',menuController.getMenuWithoutToken) // token olmadan menüleri çekebiliriz. Qr için
 app.post('/postMenu',authMiddleware,menuController.postMenu)
 app.delete('/deleteMenu',authMiddleware,menuController.deleteMenu)

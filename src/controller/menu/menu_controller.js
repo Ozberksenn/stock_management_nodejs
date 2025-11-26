@@ -6,7 +6,7 @@ getMenu = async (req,res) => {
     // req.company den login olmuş token bilgileri geliyor.
     const request = new sql.Request()
      try {
-            let result = await request.input('CompanyId',req.company['companyId']).execute('usp_GetMenus')
+            let result = await request.execute('usp_GetMenus')
             return new CustomResponse(result.recordset,'Success').success(res)
         } catch (error) {
             return new CustomResponse({}, error.toString()).error500(res);

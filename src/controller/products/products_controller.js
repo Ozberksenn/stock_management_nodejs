@@ -5,7 +5,18 @@ const {insertLog} = require('../admin/logger')
 const getProducts = async (req,res) => {
     const request = new sql.Request()
     try {
-        let result = await request.input('CompanyId',req.company['companyId']).execute('usp_GetProducts')
+        let result = await request.execute('usp_GetProducts')
+        return new CustomResponse(result.recordset,'Success').success(res)
+    } catch (error) {
+        return new CustomResponse({}, error.toString()).error500(res);
+    } 
+}
+
+const getProductByMenuId = async (req,res) => {
+    const menuId = req.query.MenuId;
+    const request = new sql.Request()
+    try {
+        let result = await request.input('MenuId',menuId).execute('usp_GetProductsByMenuId')
         return new CustomResponse(result.recordset,'Success').success(res)
     } catch (error) {
         return new CustomResponse({}, error.toString()).error500(res);
@@ -119,4 +130,4 @@ const productOrderUpdate = async (req,res) => {
 }
 
 
-module.exports= {getProducts,getProductWithoutToken,createProduct,deleteProduct,updateProduct,findProductWithBarcode,updateProductQuantity,productOrderUpdate}
+module.exports= {getProducts,getProductByMenuId,getProductWithoutToken,createProduct,deleteProduct,updateProduct,findProductWithBarcode,updateProductQuantity,productOrderUpdate}
